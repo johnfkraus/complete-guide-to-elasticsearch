@@ -1,5 +1,8 @@
 This repository contains all of the queries used within the [Complete Guide to Elasticsearch course](https://l.codingexplained.com/r/elasticsearch-course?src=github).
 
+https://dedicated-laurel-1hfqmn7b.apps.bonsaisearch.net/app/dev_tools#/console
+
+
 ## Lecture 13
 
 In the console:
@@ -45,5 +48,563 @@ GET /_cat/indices?v&expand_wildcards=all
 
 GET /[API]/[command]
 
-## Lesson 14
+## Lesson 14 - Curl
+
+```bash
+curl https://bcec8e0e4c:0122727a305d76ffd8ce@dedicated-laurel-1hfqmn7b.us-east-1.bonsaisearch.net
+{
+  "name" : "opensearch_172-31-155-75_2.19.2_omc_bonsai_us-east-1_common_opensearch-8466_manager-data-ingest-2617_",
+  "cluster_name" : "opensearch_2.19.2_omc_bonsai_us-east-1_common_opensearch-8466",
+  "cluster_uuid" : "lyr-L1ImSoyHujHXhaNpvA",
+  "version" : {
+    "distribution" : "opensearch",
+    "number" : "2.19.2",
+    "build_type" : "tar",
+    "build_hash" : "e0ba5eebfa3f060fc76e4e2b5b61193a19470d4f",
+    "build_date" : "2025-04-29T20:06:33.471315233Z",
+    "build_snapshot" : false,
+    "lucene_version" : "9.12.1",
+    "minimum_wire_compatibility_version" : "7.10.0",
+    "minimum_index_compatibility_version" : "7.0.0"
+  },
+  "tagline" : "The OpenSearch Project: https://opensearch.org/"
+}
+(base) blauerbock@Johns-MacBook-Pro-2.local /Users/blauerbock/workspaces/complete-guide-to-elasticsearch [master]
+%
+
+ blauerbock@Johns-MacBook-Pro-2.local /Users/blauerbock/workspaces/complete-guide-to-elasticsearch [master]
+ 
+% curl https://bcec8e0e4c:0122727a305d76ffd8ce@dedicated-laurel-1hfqmn7b.us-east-1.bonsaisearch.net | jq .
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100   704  100   704    0     0  10524      0 --:--:-- --:--:-- --:--:-- 10666
+{
+  "name": "opensearch_172-31-155-75_2.19.2_omc_bonsai_us-east-1_common_opensearch-8466_manager-data-ingest-2617_",
+  "cluster_name": "opensearch_2.19.2_omc_bonsai_us-east-1_common_opensearch-8466",
+  "cluster_uuid": "lyr-L1ImSoyHujHXhaNpvA",
+  "version": {
+    "distribution": "opensearch",
+    "number": "2.19.2",
+    "build_type": "tar",
+    "build_hash": "e0ba5eebfa3f060fc76e4e2b5b61193a19470d4f",
+    "build_date": "2025-04-29T20:06:33.471315233Z",
+    "build_snapshot": false,
+    "lucene_version": "9.12.1",
+    "minimum_wire_compatibility_version": "7.10.0",
+    "minimum_index_compatibility_version": "7.0.0"
+  },
+  "tagline": "The OpenSearch Project: https://opensearch.org/"
+}
+(base) blauerbock@Johns-MacBook-Pro-2.local /Users/blauerbock/workspaces/complete-guide-to-elasticsearch [master]
+```
+
+curl $ESHOST | jq .
+
+
+### Sending requests to Elasticsearch with curl
+
+I do want to show you how to run queries with cURL as well, just in case you prefer to do that.
+
+You can use other HTTP clients as well, such as Postman.
+
+You should already have cURL installed with the exception being for some old versions of Windows
+
+Anyway, let’s type out the simplest possible cURL command by simply specifying the endpoint of our Elasticsearch cluster.
+
+If you are using Elastic Cloud, be sure to use the Elasticsearch endpoint from the deployment page and not the Kibana endpoint.
+
+The GET HTTP verb is implicitly assumed if none is specific, but we can also specify it with the -X argument as follows.
+
+Let’s send the request.
+
+curl http://localhost:9200
+
+curl -X GET http://localhost:9200
+
+curl https://bcec8e0e4c:0122727a305d76ffd8ce@dedicated-laurel-1hfqmn7b.us-east-1.bonsaisearch.net
+
+As you can see, we get an empty response back from Elasticsearch.
+
+That’s because from version 8 and onwards, we need to use the TLS endpoint instead of plaintext, so let’s change that.
+
+curl -X GET https://localhost:9200
+
+Now we get a certificate error.
+
+The reason is that Elasticsearch generates a self signed certificate by default, which
+
+is not trusted by HTTP clients for security reasons.
+
+Note that this only applies to local setups, so if you created a cloud deployment, you
+
+will not face this issue.
+
+The easiest way to get around that is to simply use cURL’s --insecure flag as follows.
+
+curl --unsecure -X GET https://localhost:9200
+
+This flag instructs cURL to ignore the certificate error, and if you look closely, you can see that we now get a different error.
+
+This was an easy solution and it works just fine for local development, but the more correct approach is to provide cURL with the CA certificate with the "cacert" argument.
+
+Let me just type that out.
+
+The CA certificate is located within the config/certs directory as you can see.
+
+If your working directory is the Elasticsearch root directory, you can specify the relative path just like I did.
+
+Otherwise you can use an absolute path as well.
+
+From the elasticsearch root directory (or use absolute path)
+
+curl --cacert config/certs/http_cs.crt -X GET https://localhost:9200
+
+
+Running the command, you can see that the certificate error went away with this approach as well.
+
+Alright, so far so good.
+
+We still get an error, because we need to authenticate with our Elasticsearch cluster.
+
+This also applies if you have created a cloud deployment instead of a local one.
+
+Doing so is simple with cURL’s -u argument.
+
+The value should simply be the username for your deployment.
+
+For local deployments, the password is the one that was generated the first time Elasticsearch started up.
+
+curl --cacert config/certs/http_cs.crt -u elastic -X GET https://localhost:9200
+
+
+When running the command, cURL will prompt us to enter our password.
+
+Perfect, that worked as intended.
+
+For the endpoint we defined, Elasticsearch returns basic information about our cluster.
+
+As an alternative, you can supply your password for the -u argument as well.
+
+Simply add a colon after the username followed by the password.
+
+With this approach, cURL will not prompt us to enter the password when running the command.
+
+curl --cacert config/certs/http_cs.crt -u elastic:password -X GET https://localhost:9200
+
+The password will, however, be exposed within your terminal, so this is not ideal from a
+
+security perspective - especially when communicating with a production cluster.
+
+Anyway, that was the most basic request we could send.
+
+Oftentimes we need to send some data along with our request, such as when searching for data.
+
+Let’s update our request path to use Elasticsearch’s Search API for a products index.
+
+This index doesn’t exist yet, but we will create it later.
+
+The Search API requires us to send a JSON object specifying constraints for our query.
+
+We will get back to searching for data later, so I will just use the simplest possible query which matches all documents.
+
+To specify the data, we can use cURL’s -d argument.
+
+Let me just type it out.
+
+curl --cacert config/certs/http_cs.crt -u elastic:password -X GET https://localhost:9200/products/_search -d '{ "query": { "match_all": {} } }'
+
+curl --cacert config/certs/http_cs.crt -u elastic:password -X GET "${ESHOST}/products/_search" -d '{ "query": { "match_all": {} } }'
+
+curl --cacert config/certs/http_cs.crt -u elastic:password -X GET "${ESHOST}/products/_search" -d '{ "query": { "match_all": {} } }'
+
+curl -X GET -H "Content-Type:application/json" "${ESHOST}/products/_search" -d '{ "query": { "match_all": {} } }'
+
+Don’t worry about the JSON object, but here is a formatted version of it anyway.
+
+Notice how I enclosed it within single quotes to avoid having to escape all of the double quotes with backslashes.
+
+That approach doesn’t work on Windows because it doesn’t like single quotes.
+
+Instead, you need to wrap the argument within double quotes and then escape each double quote within the JSON object.
+
+You can see an example on your screen, and you can copy it from within the GitHub repository to save some typing.
+
+curl [...] -d "{ \"query\": { \"match_all\": {} }  }"
+
+curl "${ESHOST}" | jq .
+
+Anyway, let’s hit Enter and see what we get.
+
+We get an error back saying that the provided Content-Type header is not supported.
+
+When adding data with the -d argument, cURL just assumes that we are mimicking a form submission.
+
+Because Elasticsearch expects to receive JSON, we need to explicitly define which kind of data we are sending.
+
+That’s done by specifying a Content-Type header with a value of application/json.
+
+That can be done with the -H argument as follows.
+
+curl --cacert config/certs/http_cs.crt -u elastic:password -X GET -H "Content-Type:application/json"  https://localhost:9200/products/_search -d '{ "query": { "match_all": {} } }'
+
+curl -X GET "${ESHOST}/products/_search" -H "Content-Type:application/json" -d '{ "query": { "match_all": {} } }'
+
+
+
+
+That should fix the error, so let’s send the request again.
+
+curl -X GET "${ESHOST}/products/_search" -H "Content-Type:application/json" -d '{ "query": { "match_all": {} } }'
+
+{"error":{"root_cause":[{"type":"index_not_found_exception","reason":"no such index [products]","index":"products","resource.id":"products","resource.type":"index_or_alias","index_uuid":"_na_"}],"type":"index_not_found_exception","reason":"no such index [products]","index":"products","resource.id":"products","resource.type":"index_or_alias","index_uuid":"_na_"},"status":404}%
+
+
+Indeed the header error went away.
+
+We now get a different error stating that the products index doesn’t exist.
+
+That’s to be expected since we haven’t created it yet, so everything is good.
+
+So that’s how to send requests to Elasticsearch with cURL.
+
+If you encounter any problems, try checking the order of the arguments, as cURL is quite
+
+sensitive in that regard.
+
+Honestly, its behavior can seem a bit weird if you are not familiar with it.
+
+If you prefer to use other HTTP clients, it should be fairly easy to replicate this in
+
+Postman or something like that.
+
+Alright, I’ll see you in the next lecture.
+
+
+
+## Lesson 20-Creating and Deleting Indexes
+
+DELETE /pages
+
+PUT /products
+
+DELETE /pages
+
+PUT /products
+{
+  "settings": {
+    "number_of_shards": 2,
+    "number_of_replicas": 2
+  }
+}
+
+{
+  "acknowledged": true,
+  "shards_acknowledged": true,
+  "index": "products"
+}
+
+## Lesson 21 - Indexing documents
+
+POST /products/_doc
+{
+  "name": "Coffee Maker",
+  "price": 64,
+  "in_stock": 10
+}
+{
+  "_index": "products",
+  "_id": "Aodt2ZkBa2Q2SW-AFCPx",
+  "_version": 1,
+  "result": "created",
+  "_shards": {
+    "total": 3,
+    "successful": 3,
+    "failed": 0
+  },
+  "_seq_no": 0,
+  "_primary_term": 1
+}
+
+POST /
+
+
+## Lesson 23 - Updating documents
+
+PUT /products/_doc/100
+{
+  "name": "Toaster",
+  "price": 39,
+  "in_stock": 4
+}
+GET /products/_doc/100
+
+POST /products/_update/100
+{
+  "doc": {
+    "in_stock": 3
+  }
+}
+GET /products/_doc/100
+POST /products/_update/100
+{
+  "doc": {
+    "tags": ["electronics"]    
+  }
+}
+
+
+## Lesson 24 - Scripted updates
+
+Managing Documents/scripted-updates.md
+
+GET /products/_doc/100
+
+POST /products/_update/100
+{
+  "script": {
+    "source": "ctx._source.in_stock--"
+  }
+}
+GET /products/_doc/100
+
+GET /products/_doc/100
+
+POST /products/_update/100
+{
+  "script": {
+    "source": "ctx._source.in_stock=10"
+  }
+}
+GET /products/_doc/100
+POST /products/_update/100
+{
+  "script": {
+    "source": "ctx._source.in_stock -= params.quantity",
+    "params": {
+      "quantity": 4
+    }
+  }
+}
+
+
+
+## Lesson 31 - Understanding document versioning
+
+PUT /products/_doc/123?version=521&version_type=external
+{
+  "name": "Kuerig Machine",
+  "price": 49,
+  "in_stock": 10
+}
+
+## Lesson 35 - Batch processing
+
+The create action will fail if the document already exists.
+
+The index action will add the document if it doesn't already exist; if the document exists, it will be replaced.
+
+## Lesson 36 - Importing data with CURL
+
+curl https://bcec8e0e4c:0122727a305d76ffd8ce@dedicated-laurel-1hfqmn7b.us-east-1.bonsaisearch.net | jq .
+
+curl -H "Content-Type: application/x-ndjson" -XPOST http://localhost:9200/products/_bulk --data-binary "@products-bulk.json"
+
+curl https://bcec8e0e4c:0122727a305d76ffd8ce@dedicated-laurel-1hfqmn7b.us-east-1.bonsaisearch.net | jq .
+
+curl -H "Content-Type: application/x-ndjson" -XPOST https://bcec8e0e4c:0122727a305d76ffd8ce@dedicated-laurel-1hfqmn7b.us-east-1.bonsaisearch.net/products/_bulk --data-binary "@products-bulk.json"
+
+GET /products/_search
+{
+  "query": {
+    "match_all": {}
+  }
+}
+
+
+curl -X GET -H "Content-Type:application/json" "${ESHOST}/products/_search" -d '{ "query": { "match_all": {} } }'
+
+
+
+## Lesson 42 - Intro to mapping
+
+GET /_mapping
+
+GET products/_mapping
+
+GET /reviews/_mapping
+
+GET /reviews/_mapping/field/content
+
+## Lesson 48 - Retrieving mappings
+
+GET products/_mapping
+
+GET /reviews/_mapping
+
+GET /reviews/_mapping/field/content
+
+## Lesson 71 - Intro to Searching
+
+GET /products/_search
+{
+  "query": {
+    "match_all": {}
+  }
+}
+
+
+## Lesson 72 - Intro to term-level queries
+
+
+## Lesson 73 - Searching for terms
+
+Term level queries are case-sensitive.
+
+### Booleans
+
+GET /products/_search
+{
+  "query": {
+    "term": {
+      "is_active": true
+    }
+  }
+}
+
+### Numbers
+
+GET /products/_search
+{
+  "query": {
+    "term": {
+      "in_stock": 1
+    }
+  }
+}
+
+
+### Dates
+
+GET /products/_search
+{
+  "query": {
+    "term": {
+      "created": "2007/10/14"
+    }
+  }
+}
+
+### Timestamps
+
+GET /products/_search
+{
+  "query": {
+    "term": {
+      "created": "2007/10/14 12:34:56"
+    }
+  }
+}
+
+## Explicit syntax 
+
+is required if we want to specify parameters for our query.
+
+GET /products/_search
+{
+  "query": {
+    "term": {
+      "tags.keyword": {
+        "value": "Vegetable"
+      }
+    }
+  }
+}
+
+GET /products/_search
+{
+  "query": {
+    "term": {
+      "tags.keyword": {
+        "value": "vegetable",
+        "case_insensitive": true
+      }
+    }
+  }
+}
+
+# note "terms" vs "term"
+GET /products/_search
+{
+  "query": {
+    "terms": {
+      "tags.keyword": ["Soup", "Meat"]
+    }
+  }
+}
+
+SQL equivalent: tags.keyword CONTAINS "Soup" AND/OR "Meat"
+
+## Lesson 75 - Range searches
+
+GET /products/_search
+{
+  "query": {
+    "range": {
+      "in_stock": {
+        "gte": 1,
+        "lte": 5
+      }
+    }
+  }
+}
+
+SQL equivalent: 
+
+WHERE in_stock >= 1 AND in_stock <= 5
+
+### Exclude boundaries
+
+GET /products/_search
+{
+  "query": {
+    "range": {
+      "in_stock": {
+        "gt": 1,
+        "lt": 5
+      }
+    }
+  }
+}
+
+### Dates without time
+GET /products/_search
+{
+  "query": {
+    "range": {
+      "created": {
+        "gte": "2007/01/01",
+        "lte": "2020/01/31"
+      }
+    }
+  }
+}
+
+### Specify date format
+GET /products/_search
+{
+  "query": {
+    "range": {
+      "created": {
+        "format": "dd/MM/yyyy",
+        "gte": "01/01/2007",
+        "lte": "31/01/2020"
+      }
+    }
+  }
+}
+
+
+### Specify a UTC offset
+
+
 
