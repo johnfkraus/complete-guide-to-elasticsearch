@@ -1,6 +1,6 @@
-# Querying by field existence
+## Lesson 77 - Querying by field existence
 
-## Basic usage
+### Basic usage
 
 ```
 GET /products/_search
@@ -15,7 +15,7 @@ GET /products/_search
 
 **SQL:** `SELECT * FROM products WHERE tags IS NOT NULL`
 
-## Inverting the query
+### Inverting the query
 
 There is no dedicated query for this, so we do it with the `bool` query.
 
@@ -37,3 +37,5 @@ GET /products/_search
 ```
 
 **SQL:** `SELECT * FROM products WHERE tags IS NULL`
+
+

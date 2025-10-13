@@ -1,6 +1,6 @@
-# Querying with boolean logic
+## Lesson 84 - Querying with boolean logic
 
-## `must`
+### `must`
 
 Query clauses added within the `must` occurrence type are required to match.
 
@@ -131,7 +131,7 @@ GET /products/_search
 }
 ```
 
-## `minimum_should_match`
+### `minimum_should_match`
 
 Since only `should` query clauses are specified, at least one of them must match.
 

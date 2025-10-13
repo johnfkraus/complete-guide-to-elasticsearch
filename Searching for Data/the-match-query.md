@@ -1,6 +1,6 @@
-# The match query
+## Lesson 79 - The match query
 
-## Basic usage
+### Basic usage
 
 ```
 GET /products/_search

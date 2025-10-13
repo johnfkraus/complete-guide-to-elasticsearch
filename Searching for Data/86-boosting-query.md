@@ -1,6 +1,6 @@
-# Boosting query
+## Lesson 86 - Boosting query
 
-## Matching juice products
+### Matching juice products
 
 ```
 GET /products/_search

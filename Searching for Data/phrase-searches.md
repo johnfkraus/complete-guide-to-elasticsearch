@@ -1,8 +1,24 @@
-# Phrase searches
+## Lesson 82 - Phrase searches
 
-## Basic usage
+Word order matters in a phrase.
+
+No other words in between words in the phrase.
+
+Hyphens and parentheses are dropped during the analysis process.
+
+### Basic usage
 
 ```
+
+GET /products/_search
+{
+  "query": {
+    "match_phrase": {
+      "description": "Complete Guide to Elasticsearch"
+    }
+  }
+}
+
 GET /products/_search
 {
   "query": {
@@ -13,7 +29,7 @@ GET /products/_search
 }
 ```
 
-## More examples
+### More examples
 
 ```
 GET /products/_search

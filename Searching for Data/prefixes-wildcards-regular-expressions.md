@@ -1,6 +1,6 @@
-# Prefixes, wildcards & regular expressions
+## Lesson 76 - Prefixes, wildcards & regular expressions
 
-## Searching for a prefix
+### Searching for a prefix
 
 ```
 GET /products/_search
@@ -15,9 +15,9 @@ GET /products/_search
 }
 ```
 
-## Wildcards
+### Wildcards
 
-### Single character wildcard (`?`)
+#### Single character wildcard (`?`)
 
 ```
 GET /products/_search
@@ -32,7 +32,7 @@ GET /products/_search
 }
 ```
 
-### Zero or more characters wildcard (`*`)
+#### Zero or more characters wildcard (`*`)
 
 ```
 GET /products/_search
@@ -47,7 +47,7 @@ GET /products/_search
 }
 ```
 
-## Regexp
+### Regexp
 
 ```
 GET /products/_search
@@ -62,7 +62,7 @@ GET /products/_search
 }
 ```
 
-## Case insensitive searches
+### Case insensitive searches
 
 All of the above queries can be made case insensitive by adding the `case_insensitive` parameter, e.g.:
 

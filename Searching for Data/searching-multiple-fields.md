@@ -1,6 +1,8 @@
-# Searching multiple fields
+## Lesson 81 - Searching multiple fields
 
-## Basic usage
+https://www.elastic.co/docs/api/
+
+### Basic usage
 
 ```
 GET /products/_search

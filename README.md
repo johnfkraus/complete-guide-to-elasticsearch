@@ -606,5 +606,809 @@ GET /products/_search
 
 ### Specify a UTC offset
 
+## Lesson 76 - Prefixes, wildcards & regular expressions
+
+### Searching for a prefix
+
+Prefix must occur at the beginning of the term.
+
+```
+GET /products/_search
+{
+  "query": {
+    "prefix": {
+      "name.keyword": {
+        "value": "Past"
+      }
+    }
+  }
+}
+```
+If we search tags instead of name, we get more hits.
+
+GET /products/_search
+{
+  "query": {
+    "prefix": {
+      "tags.keyword": {
+        "value": "Past"
+      }
+    }
+  }
+}
+
+
+### Wildcards
+
+#### Single character wildcard (`?`)
+
+```
+GET /products/_search
+{
+  "query": {
+    "wildcard": {
+      "tags.keyword": {
+        "value": "Past?"
+      }
+    }
+  }
+}
+```
+
+#### Zero or more characters wildcard (`*`)
+
+```
+GET /products/_search
+{
+  "query": {
+    "wildcard": {
+      "tags.keyword": {
+        "value": "Bee*"
+      }
+    }
+  }
+}
+
+GET /products/_search
+{
+  "query": {
+    "regexp": {
+      "tags.keyword": {
+        "value": "Bee(f|r)+"
+      }
+    }
+  }
+}
+```
+
+### Regexp
+
+```
+GET /products/_search
+{
+  "query": {
+    "regexp": {
+      "tags.keyword": {
+        "value": "Bee(f|r)+"
+      }
+    }
+  }
+}
+```
+ES uses Apache Lucene regex, in which anchor symbols are not supported (^,$).
+
+
+### Case insensitive searches
+
+All of the above queries can be made case insensitive by adding the `case_insensitive` parameter, e.g.:
+
+```
+GET /products/_search
+{
+  "query": {
+    "prefix": {
+      "name.keyword": {
+        "value": "Past",
+        "case_insensitive": true
+      }
+    }
+  }
+}
+```
+## Lesson 77 - Querying by field existence
+
+### Basic usage
+
+```
+GET /products/_search
+{
+  "query": {
+    "exists": {
+      "field": "tags.keyword"
+    }
+  }
+}
+```
+
+**SQL:** `SELECT * FROM products WHERE tags IS NOT NULL`
+
+### Inverting the query
+
+There is no dedicated query for this, so we do it with the `bool` query.
+
+```
+GET /products/_search
+{
+  "query": {
+    "bool": {
+      "must_not": [
+        {
+          "exists": {
+            "field": "tags.keyword"
+          }
+        }
+      ]
+    }
+  }
+}
+```
+
+**SQL:** `SELECT * FROM products WHERE tags IS NULL`
+
+
+
+
+
+
+## Lesson 79 - The match query
+
+### Basic usage
+
+```
+GET /products/_search
+{
+  "query": {
+    "match": {
+      "name": "pasta"
+    }
+  }
+}
+```
+
+Full text queries are analyzed (and therefore case insensitive), so the below query yields the same results.
+
+```
+GET /products/_search
+{
+  "query": {
+    "match": {
+      "name": "PASTA"
+    }
+  }
+}
+```
+
+## Searching for multiple terms
+
+```
+GET /products/_search
+{
+  "query": {
+    "match": {
+      "name": "PASTA CHICKEN"
+    }
+  }
+}
+```
+
+## Specifying the operator
+
+Defaults to `or`. The below makes both terms required.
+
+```
+GET /products/_search
+{
+  "query": {
+    "match": {
+      "name": {
+        "query": "pasta chicken",
+        "operator": "and"
+      }
+    }
+  }
+}
+```
+
+## Lesson 81 - Searching multiple fields
+
+https://www.elastic.co/docs/api/
+
+### Basic usage
+
+```
+GET /products/_search
+{
+  "query": {
+    "multi_match": {
+      "query": "vegetable",
+      "fields": ["name", "tags"]
+    }
+  }
+}
+```
+
+## Per-field relevance boosting
+
+```
+GET /products/_search
+{
+  "query": {
+    "multi_match": {
+      "query": "vegetable",
+      "fields": ["name^2", "tags"]
+    }
+  }
+}
+```
+
+## Specifying a tie breaker
+
+```
+GET /products/_search
+{
+  "query": {
+    "multi_match": {
+      "query": "vegetable broth",
+      "fields": ["name", "description"],
+      "tie_breaker": 0.3
+    }
+  }
+}
+```
+
+## Lesson 84 - Querying with boolean logic
+
+### `must`
+
+Query clauses added within the `must` occurrence type are required to match.
+
+```
+GET /products/_search
+{
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "term": {
+            "tags.keyword": "Alcohol"
+          }
+        }
+      ]
+    }
+  }
+}
+```
+
+**SQL:** `SELECT * FROM products  WHERE tags IN ("Alcohol")`
+
+## `must_not`
+
+Query clauses added within the `must_not` occurrence type are required to _not_ match.
+
+```
+GET /products/_search
+{
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "term": {
+            "tags.keyword": "Alcohol"
+          }
+        }
+      ],
+      "must_not": [
+        {
+          "term": {
+            "tags.keyword": "Wine"
+          }
+        }
+      ]
+    }
+  }
+}
+```
+
+**SQL:** `SELECT * FROM products WHERE tags IN ("Alcohol") AND tags NOT IN ("Wine")`
+
+## `should`
+
+Matching query clauses within the `should` occurrence type boost a matching document's relevance score.
+
+```
+GET /products/_search
+{
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "term": {
+            "tags.keyword": "Alcohol"
+          }
+        }
+      ],
+      "must_not": [
+        {
+          "term": {
+            "tags.keyword": "Wine"
+          }
+        }
+      ],
+      "should": [
+        {
+          "term": {
+            "tags.keyword": "Beer"
+          }
+        }
+      ]
+    }
+  }
+}
+```
+
+An example with a few more adding more `should` query clauses:
+
+```
+GET /products/_search
+{
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "term": {
+            "tags.keyword": "Alcohol"
+          }
+        }
+      ],
+      "must_not": [
+        {
+          "term": {
+            "tags.keyword": "Wine"
+          }
+        }
+      ],
+      "should": [
+        {
+          "term": {
+            "tags.keyword": "Beer"
+          }
+        },
+        {
+          "match": {
+            "name": "beer"
+          }
+        },
+        {
+          "match": {
+            "description": "beer"
+          }
+        }
+      ]
+    }
+  }
+}
+```
+
+### `minimum_should_match`
+
+Since only `should` query clauses are specified, at least one of them must match.
+
+```
+GET /products/_search
+{
+  "query": {
+    "bool": {
+      "should": [
+        {
+          "term": {
+            "tags.keyword": "Beer"
+          }
+        },
+        {
+          "match": {
+            "name": "beer"
+          }
+        }
+      ]
+    }
+  }
+}
+```
+
+Since a `must` query clause is specified, all of the `should` query clauses are optional. 
+They are therefore only used to boost the relevance scores of matching documents.
+
+```
+GET /products/_search
+{
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "term": {
+            "tags.keyword": "Alcohol"
+          }
+        }
+      ], 
+      "should": [
+        {
+          "term": {
+            "tags.keyword": "Beer"
+          }
+        },
+        {
+          "match": {
+            "name": "beer"
+          }
+        }
+      ]
+    }
+  }
+}
+```
+
+This behavior can be configured with the `minimum_should_match` parameter as follows.
+
+```
+GET /products/_search
+{
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "term": {
+            "tags.keyword": "Alcohol"
+          }
+        }
+      ], 
+      "should": [
+        {
+          "term": {
+            "tags.keyword": "Beer"
+          }
+        },
+        {
+          "match": {
+            "name": "beer"
+          }
+        }
+      ],
+      "minimum_should_match": 1
+    }
+  }
+}
+```
+
+## `filter`
+
+Query clauses defined within the `filter` occurrence type must match. 
+This is similar to the `must` occurrence type. The difference is that 
+`filter` query clauses do not affect relevance scores and may be cached.
+
+```
+GET /products/_search
+{
+  "query": {
+    "bool": {
+      "filter": [
+        {
+          "term": {
+            "tags.keyword": "Alcohol"
+          }
+        }
+      ]
+    }
+  }
+}
+```
+
+## Examples
+
+### Example #1
+
+**SQL:** `SELECT * FROM products WHERE (tags IN ("Beer") OR name LIKE '%Beer%') AND in_stock <= 100`
+
+**Variation #1**
+
+```
+GET /products/_search
+{
+  "query": {
+    "bool": {
+      "filter": [
+        {
+          "range": {
+            "in_stock": {
+              "lte": 100
+            }
+          }
+        }
+      ],
+      "must": [
+        {
+          "bool": {
+            "should": [
+              { "term": { "tags.keyword": "Beer" } },
+              { "match": { "name": "Beer" } }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}
+```
+
+**Variation #2**
+
+```
+GET /products/_search
+{
+  "query": {
+    "bool": {
+      "filter": [
+        {
+          "range": {
+            "in_stock": {
+              "lte": 100
+            }
+          }
+        }
+      ],
+      "should": [
+        { "term": { "tags.keyword": "Beer" } },
+        { "match": { "name": "Beer" } }
+      ],
+      "minimum_should_match": 1
+    }
+  }
+}
+
+```
+
+### Example #2
+
+**SQL:** `SELECT * FROM products WHERE tags IN ("Beer") AND (name LIKE '%Beer%' OR description LIKE '%Beer%') AND in_stock <= 100`
+
+**Variation #1**
+
+```
+GET /products/_search
+{
+  "query": {
+    "bool": {
+      "filter": [
+        {
+          "range": {
+            "in_stock": {
+              "lte": 100
+            }
+          }
+        },
+        {
+          "term": {
+            "tags.keyword": "Beer"
+          }
+        }
+      ],
+      "should": [
+        { "match": { "name": "Beer" } },
+        { "match": { "description": "Beer" } }
+      ],
+      "minimum_should_match": 1
+    }
+  }
+}
+```
+
+**Variation #2**
+
+```
+GET /products/_search
+{
+  "query": {
+    "bool": {
+      "filter": [
+        {
+          "range": {
+            "in_stock": {
+              "lte": 100
+            }
+          }
+        },
+        {
+          "term": {
+            "tags.keyword": "Beer"
+          }
+        }
+      ],
+      "must": [
+        {
+          "multi_match": {
+            "query": "Beer",
+            "fields": ["name", "description"]
+          }
+        }
+      ]
+    }
+  }
+}
+```
+
+## Lesson 86 - Boosting query
+
+### Matching juice products
+
+```
+GET /products/_search
+{
+  "size": 20,
+  "query": {
+    "match": {
+      "name": "juice"
+    }
+  }
+}
+```
+
+## Match juice products, but deprioritize apple juice
+
+```
+GET /products/_search
+{
+  "size": 20,
+  "query": {
+    "boosting": {
+      "positive": {
+        "match": {
+          "name": "juice"
+        }
+      },
+      "negative": {
+        "match": {
+          "name": "apple"
+        }
+      },
+      "negative_boost": 0.5
+    }
+  }
+}
+```
+
+## Without filtering (deprioritize everything apples)
+
+```
+GET /products/_search
+{
+  "query": {
+    "boosting": {
+      "positive": {
+        "match_all": {}
+      },
+      "negative": {
+        "match": {
+          "name": "apple"
+        }
+      },
+      "negative_boost": 0.5
+    }
+  }
+}
+```
+
+## More examples
+
+### "I like pasta"
+
+Boost the relevance scores for pasta products.
+
+```
+GET /recipes/_search
+{
+  "query": {
+    "bool": {
+      "must": [
+        { "match_all": {} }
+      ], 
+      "should": [
+        {
+          "term": {
+            "ingredients.name.keyword": "Pasta"
+          }
+        }
+      ]
+    }
+  }
+}
+```
+
+### "I don't like bacon"
+
+Reduce the relevance scores for bacon products.
+
+```
+GET /recipes/_search
+{
+  "query": {
+    "boosting": {
+      "positive": {
+        "match_all": {}
+      },
+      "negative": {
+        "term": {
+          "ingredients.name.keyword": "Bacon"
+        }
+      },
+      "negative_boost": 0.5
+    }
+  }
+}
+```
+
+### Pasta products, preferably without bacon
+
+```
+GET /recipes/_search
+{
+  "query": {
+    "boosting": {
+      "positive": {
+        "term": {
+          "ingredients.name.keyword": "Pasta"
+        }
+      },
+      "negative": {
+        "term": {
+          "ingredients.name.keyword": "Bacon"
+        }
+      },
+      "negative_boost": 0.5
+    }
+  }
+}
+```
+
+### "I like pasta, but not bacon"
+
+```
+GET /recipes/_search
+{
+  "query": {
+    "boosting": {
+      "positive": {
+        "bool": {
+          "must": [
+            { "match_all": {} }
+          ],
+          "should": [
+            {
+              "term": {
+                "ingredients.name.keyword": "Pasta"
+              }
+            }
+          ]
+        }
+      },
+      "negative": {
+        "term": {
+          "ingredients.name.keyword": "Bacon"
+        }
+      },
+      "negative_boost": 0.5
+    }
+  }
+}
+```
+
 
 
