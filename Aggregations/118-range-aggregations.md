@@ -1,4 +1,6 @@
-# Range aggregations
+## Lesson 118 - Range aggregations
+
+The from key is included; the 'to' key is excluded.
 
 ## `range` aggregation
 

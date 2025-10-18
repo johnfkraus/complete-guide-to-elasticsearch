@@ -1,6 +1,6 @@
-# Nested inner hits
+## Lesson 89 - Nested inner hits
 
-## Enabling inner hits
+### Enabling inner hits
 
 ```
 GET /recipes/_search

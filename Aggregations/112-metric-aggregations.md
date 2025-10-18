@@ -1,6 +1,6 @@
-# Metric aggregations
+## Lesson 112 - Metric aggregations
 
-## Calculating statistics with `sum`, `avg`, `min`, and `max` aggregations
+### Calculating statistics with `sum`, `avg`, `min`, and `max` aggregations
 
 ```
 GET /orders/_search

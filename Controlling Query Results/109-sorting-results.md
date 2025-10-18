@@ -1,6 +1,6 @@
-# Sorting results
+## Lesson 109 - Sorting results
 
-## Sorting by ascending order (implicitly)
+### Sorting by ascending order (implicitly)
 
 ```
 GET /recipes/_search

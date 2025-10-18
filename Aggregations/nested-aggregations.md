@@ -1,6 +1,24 @@
-# Nested aggregations
+## Lesson 115 - Nested aggregations
 
-## Retrieving statistics for each status
+Divide records into buckets based on "status" field.
+
+```
+GET /orders/_search
+{
+  "size": 0,
+  "aggs": {
+    "status_terms": {
+      "terms": {
+        "field": "status"
+      }
+    }
+  }
+}
+```
+
+
+### Retrieving statistics for each status/bucket using a metric aggregation.
+
 
 ```
 GET /orders/_search
@@ -23,7 +41,7 @@ GET /orders/_search
 }
 ```
 
-## Narrowing down the aggregation context
+## Narrowing down the aggregation context with a range query.
 
 ```
 GET /orders/_search

@@ -69,6 +69,7 @@ curl https://bcec8e0e4c:0122727a305d76ffd8ce@dedicated-laurel-1hfqmn7b.us-east-1
   },
   "tagline" : "The OpenSearch Project: https://opensearch.org/"
 }
+
 (base) blauerbock@Johns-MacBook-Pro-2.local /Users/blauerbock/workspaces/complete-guide-to-elasticsearch [master]
 %
 
@@ -131,13 +132,9 @@ curl -X GET https://localhost:9200
 
 Now we get a certificate error.
 
-The reason is that Elasticsearch generates a self signed certificate by default, which
+The reason is that Elasticsearch generates a self signed certificate by default, which is not trusted by HTTP clients for security reasons.
 
-is not trusted by HTTP clients for security reasons.
-
-Note that this only applies to local setups, so if you created a cloud deployment, you
-
-will not face this issue.
+Note that this only applies to local setups, so if you created a cloud deployment, you will not face this issue.
 
 The easiest way to get around that is to simply use cURL’s --insecure flag as follows.
 
@@ -146,8 +143,6 @@ curl --unsecure -X GET https://localhost:9200
 This flag instructs cURL to ignore the certificate error, and if you look closely, you can see that we now get a different error.
 
 This was an easy solution and it works just fine for local development, but the more correct approach is to provide cURL with the CA certificate with the "cacert" argument.
-
-Let me just type that out.
 
 The CA certificate is located within the config/certs directory as you can see.
 
@@ -267,19 +262,11 @@ That’s to be expected since we haven’t created it yet, so everything is good
 
 So that’s how to send requests to Elasticsearch with cURL.
 
-If you encounter any problems, try checking the order of the arguments, as cURL is quite
+If you encounter any problems, try checking the order of the arguments, as cURL is quite sensitive in that regard.
 
-sensitive in that regard.
-
-Honestly, its behavior can seem a bit weird if you are not familiar with it.
-
-If you prefer to use other HTTP clients, it should be fairly easy to replicate this in
-
-Postman or something like that.
+If you prefer to use other HTTP clients, it should be fairly easy to replicate this in Postman or something like that.
 
 Alright, I’ll see you in the next lecture.
-
-
 
 ## Lesson 20-Creating and Deleting Indexes
 
@@ -292,8 +279,8 @@ DELETE /pages
 PUT /products
 {
   "settings": {
-    "number_of_shards": 2,
-    "number_of_replicas": 2
+    "number_of_shards": 1,
+    "number_of_replicas": 1
   }
 }
 
@@ -505,10 +492,10 @@ GET /products/_search
   }
 }
 
-## Explicit syntax 
+### Explicit syntax 
 
 is required if we want to specify parameters for our query.
-
+```
 GET /products/_search
 {
   "query": {
@@ -541,7 +528,7 @@ GET /products/_search
     }
   }
 }
-
+```
 SQL equivalent: tags.keyword CONTAINS "Soup" AND/OR "Meat"
 
 ## Lesson 75 - Range searches
@@ -788,7 +775,7 @@ GET /products/_search
 }
 ```
 
-## Searching for multiple terms
+### Searching for multiple terms
 
 ```
 GET /products/_search
@@ -801,7 +788,7 @@ GET /products/_search
 }
 ```
 
-## Specifying the operator
+### Specifying the operator
 
 Defaults to `or`. The below makes both terms required.
 
@@ -837,7 +824,7 @@ GET /products/_search
 }
 ```
 
-## Per-field relevance boosting
+### Per-field relevance boosting
 
 ```
 GET /products/_search
@@ -851,7 +838,7 @@ GET /products/_search
 }
 ```
 
-## Specifying a tie breaker
+### Specifying a tie breaker
 
 ```
 GET /products/_search
@@ -891,7 +878,7 @@ GET /products/_search
 
 **SQL:** `SELECT * FROM products  WHERE tags IN ("Alcohol")`
 
-## `must_not`
+### `must_not`
 
 Query clauses added within the `must_not` occurrence type are required to _not_ match.
 
@@ -921,7 +908,7 @@ GET /products/_search
 
 **SQL:** `SELECT * FROM products WHERE tags IN ("Alcohol") AND tags NOT IN ("Wine")`
 
-## `should`
+### `should`
 
 Matching query clauses within the `should` occurrence type boost a matching document's relevance score.
 
@@ -1089,7 +1076,7 @@ GET /products/_search
 }
 ```
 
-## `filter`
+### `filter`
 
 Query clauses defined within the `filter` occurrence type must match. 
 This is similar to the `must` occurrence type. The difference is that 
@@ -1112,7 +1099,7 @@ GET /products/_search
 }
 ```
 
-## Examples
+### Examples
 
 ### Example #1
 
@@ -1261,7 +1248,7 @@ GET /products/_search
 }
 ```
 
-## Match juice products, but deprioritize apple juice
+### Match juice products, but deprioritize apple juice
 
 ```
 GET /products/_search
@@ -1285,7 +1272,7 @@ GET /products/_search
 }
 ```
 
-## Without filtering (deprioritize everything apples)
+### Without filtering (deprioritize everything apples)
 
 ```
 GET /products/_search
@@ -1306,9 +1293,9 @@ GET /products/_search
 }
 ```
 
-## More examples
+### More examples
 
-### "I like pasta"
+#### "I like pasta"
 
 Boost the relevance scores for pasta products.
 
@@ -1332,7 +1319,7 @@ GET /recipes/_search
 }
 ```
 
-### "I don't like bacon"
+#### "I don't like bacon"
 
 Reduce the relevance scores for bacon products.
 
@@ -1355,7 +1342,7 @@ GET /recipes/_search
 }
 ```
 
-### Pasta products, preferably without bacon
+#### Pasta products, preferably without bacon
 
 ```
 GET /recipes/_search
@@ -1378,7 +1365,7 @@ GET /recipes/_search
 }
 ```
 
-### "I like pasta, but not bacon"
+#### "I like pasta, but not bacon"
 
 ```
 GET /recipes/_search
@@ -1411,4 +1398,266 @@ GET /recipes/_search
 ```
 
 
+## Lesson 87 - Disjunction max (`dis_max`)
+
+### Basic usage
+
+```
+GET /products/_search
+{
+  "query": {
+    "dis_max": {
+      "queries": [
+        { "match": { "name": "vegetable" } },
+        { "match": { "tags": "vegetable" } }
+      ]
+    }
+  }
+}
+```
+
+### Specifying a tie breaker
+
+```
+GET /products/_search
+{
+  "query": {
+    "dis_max": {
+      "queries": [
+        { "match": { "name": "vegetable" } },
+        { "match": { "tags": "vegetable" } }
+      ],
+      "tie_breaker": 0.3
+    }
+  }
+}
+```
+
+
+GET /recipes/_search
+{
+  "query": {
+    "match_all": {}
+  }
+}
+
+## Lesson 88 - Querying nested objects
+
+### Importing test data
+
+Follow [these instructions](/Managing%20Documents/importing-data-with-curl.md) and specify `recipes-bulk.json` as the file name.
+
+curl -H "Content-Type: application/x-ndjson" -XPOST https://bcec8e0e4c:0122727a305d76ffd8ce@dedicated-laurel-1hfqmn7b.us-east-1.bonsaisearch.net/recipes/_bulk --data-binary "@recipes-bulk.json"
+
+curl -X GET -H "Content-Type:application/json" "${ESHOST}/products/_search" -d '{ "query": { "match_all": {} } }'
+
+### Searching arrays of objects (the wrong way)
+
+```
+GET /recipes/_search
+{
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "match": {
+            "ingredients.name": "parmesan"
+          }
+        },
+        {
+          "range": {
+            "ingredients.amount": {
+              "gte": 100
+            }
+          }
+        }
+      ]
+    }
+  }
+}
+```
+
+### Create the correct mapping (using the `nested` data type)
+
+```
+DELETE /recipes
+```
+
+```
+PUT /recipes
+{
+  "mappings": {
+    "properties": {
+      "title": { "type": "text" },
+      "description": { "type": "text" },
+      "preparation_time_minutes": { "type": "integer" },
+      "steps": { "type": "text" },
+      "created": { "type": "date" },
+      "ratings": { "type": "float" },
+      "servings": {
+        "properties": {
+          "min": { "type": "integer" },
+          "max": { "type": "integer" }
+        }
+      },
+      "ingredients": {
+        "type": "nested",
+        "properties": {
+          "name": {
+            "type": "text",
+            "fields": {
+              "keyword": {
+                "type": "keyword"
+              }
+            }
+          },
+          "amount": { "type": "integer" },
+          "unit": { "type": "keyword" }
+        }
+      }
+    }
+  }
+}
+```
+
+[Import the test data again](#importing-test-data).
+
+### Using the `nested` query
+
+```
+GET /recipes/_search
+{
+  "query": {
+    "nested": {
+      "path": "ingredients",
+      "query": {
+        "bool": {
+          "must": [
+            {
+              "match": {
+                "ingredients.name": "parmesan"
+              }
+            },
+            {
+              "range": {
+                "ingredients.amount": {
+                  "gte": 100
+                }
+              }
+            }
+          ]
+        }
+      }
+    }
+  }
+}
+```
+
+The usage for your Bonsai cluster has exceeded the limits for its Sandbox plan.  Shard Overage: 12 / 10
+
+PUT /products
+{
+  "products": {
+    "aliases": {},
+    "mappings": {
+      "properties": {
+        "created": {
+          "type": "date",
+          "format": "yyyy/MM/dd HH:mm:ss||yyyy/MM/dd||epoch_millis",
+          "print_format": "yyyy/MM/dd HH:mm:ss"
+        },
+        "description": {
+          "type": "text",
+          "fields": {
+            "keyword": {
+              "type": "keyword",
+              "ignore_above": 256
+            }
+          }
+        },
+        "doc": {
+          "properties": {
+            "in_stock": {
+              "type": "long"
+            }
+          }
+        },
+        "in_stock": {
+          "type": "long"
+        },
+        "is_active": {
+          "type": "boolean"
+        },
+        "name": {
+          "type": "text",
+          "fields": {
+            "keyword": {
+              "type": "keyword",
+              "ignore_above": 256
+            }
+          }
+        },
+        "price": {
+          "type": "long"
+        },
+        "sold": {
+          "type": "long"
+        },
+        "tags": {
+          "type": "text",
+          "fields": {
+            "keyword": {
+              "type": "keyword",
+              "ignore_above": 256
+            }
+          }
+        }
+      }
+    },
+    "settings": {
+      "index": {
+        "replication": {
+          "type": "DOCUMENT"
+        },
+        "number_of_shards": "1",
+        "auto_expand_replicas": null,
+        "provided_name": "products",
+        "priority": "0",
+        "number_of_replicas": "1"
+      }
+    }
+  }
+}
+
+PUT /_all/_settings?preserve_existing=true'{
+"index.number_of_shards" : "1",
+"index.number_of_replicas" : "1"
+}
+
+From lesson 20:
+
+PUT /products
+{
+  "settings": {
+    "number_of_shards": 1,
+    "number_of_replicas": 1
+  }
+}
+
+curl -XGET https://bcec8e0e4c:0122727a305d76ffd8ce@dedicated-laurel-1hfqmn7b.us-east-1.bonsaisearch.net/products/_count
+
+https://elasticsearch-cheatsheet.jolicode.com/
+
+
+
+
+## Lesson 108 - Pagination
+
+total_pages = ceil(total_hits/page_size)
+
+from = (page_size * (page_number - 1))
+
+Limited to 10,000 results.
+
+Queries are stateless.
 

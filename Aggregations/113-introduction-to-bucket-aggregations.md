@@ -1,6 +1,6 @@
-# Introduction to bucket aggregations
+## Introduction to bucket aggregations
 
-## Creating a bucket for each `status` value
+### Creating a bucket for each `status` value
 
 ```
 GET /orders/_search

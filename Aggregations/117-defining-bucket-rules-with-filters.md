@@ -1,6 +1,8 @@
-# Defining bucket rules with filters
+## Lesson 117 - Defining bucket rules with filters
 
-## Placing documents into buckets based on criteria
+How to narrow down the documents before running an aggregation.
+
+### Placing documents into buckets based on criteria
 
 ```
 GET /recipes/_search

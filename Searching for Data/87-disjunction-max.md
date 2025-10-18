@@ -1,6 +1,6 @@
-# Disjunction max (`dis_max`)
+## Lesson 87 - Disjunction max (`dis_max`)
 
-## Basic usage
+### Basic usage
 
 ```
 GET /products/_search

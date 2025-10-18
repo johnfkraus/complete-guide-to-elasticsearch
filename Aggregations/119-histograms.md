@@ -1,4 +1,4 @@
-# Histograms
+## Lesson 119 - Histograms
 
 ## Distribution of `total_amount` with interval `25`
 

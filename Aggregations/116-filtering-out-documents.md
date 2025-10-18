@@ -1,6 +1,6 @@
-# Filtering out documents
+## Lesson 116 - Filtering out documents
 
-## Filtering out documents with low `total_amount`
+### Filtering out documents with low `total_amount`
 
 ```
 GET /orders/_search
@@ -20,7 +20,7 @@ GET /orders/_search
 }
 ```
 
-## Aggregating on the bucket of remaining documents
+## Aggregating on the bucket of selected documents
 
 ```
 GET /orders/_search

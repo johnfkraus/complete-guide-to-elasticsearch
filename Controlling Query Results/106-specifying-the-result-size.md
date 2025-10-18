@@ -1,4 +1,4 @@
-# Specifying the result size
+## Lesson 106 - Specifying the result size
 
 ## Using a query parameter
 
