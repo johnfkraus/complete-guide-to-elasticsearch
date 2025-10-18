@@ -1,0 +1,1 @@
+{"id":"04afdc11-4450-49e6-af5f-199b781431fa","createdAt":1760283593903,"updatedAt":1760286314758,"text":"GET /_cluster/health\n\nGET /_cat/nodes?v\n\nGET /_cat/indices?v\n\n\nGET /_cat/indices?v&expand_wildcards=all\n\n\nGET /_cat/indices?v&expand_wildcards=all"}

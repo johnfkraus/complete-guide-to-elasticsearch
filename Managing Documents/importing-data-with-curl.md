@@ -19,9 +19,11 @@ cd C:\Users\[your_username]\Desktop
 
 ```
 # Without CA certificate validation. This is fine for development clusters, but don't do this in production!
+
 curl -k -u elastic -H "Content-Type:application/x-ndjson" -XPOST https://localhost:9200/products/_bulk --data-binary "@products-bulk.json"
 
 # With CA certificate validation. The certificate is located at $ES_HOME/config/certs/http_ca.crt
+
 curl --cacert /path/to/http_ca.crt -u elastic -H "Content-Type:application/x-ndjson" -XPOST https://localhost:9200/products/_bulk --data-binary "@products-bulk.json"
 ```
 
@@ -35,3 +37,6 @@ curl -H "Content-Type:application/x-ndjson" -H "Authorization:ApiKey API_TOKEN" 
 
 
 GET /_cat/shards?v
+
+
+curl -H "Content-Type: application/x-ndjson" -XPOST https://bcec8e0e4c:0122727a305d76ffd8ce@dedicated-laurel-1hfqmn7b.us-east-1.bonsaisearch.net/products/_bulk --data-binary "@products-bulk.json"

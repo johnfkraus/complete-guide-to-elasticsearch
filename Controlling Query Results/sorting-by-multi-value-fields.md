@@ -1,6 +1,6 @@
-# Sorting by multi-value fields
+## Lesson 110 - Sorting by multi-value fields
 
-## Sorting by the average rating (descending)
+### Sorting by the average rating (descending)
 
 ```
 GET /recipes/_search
