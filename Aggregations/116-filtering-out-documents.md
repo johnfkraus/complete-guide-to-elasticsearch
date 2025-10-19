@@ -20,7 +20,7 @@ GET /orders/_search
 }
 ```
 
-## Aggregating on the bucket of selected documents
+### Aggregating on the bucket of selected documents
 
 ```
 GET /orders/_search

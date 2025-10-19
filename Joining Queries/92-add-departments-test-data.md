@@ -1,6 +1,6 @@
-# Add departments test data
+## Lesson 92 - Add departments test data
 
-## Create a new index
+### Create a new index
 
 ```
 PUT /department
@@ -21,7 +21,17 @@ PUT /department
     }
   }
 }
+
+# To minimize the number of shards, include:
+
+  "settings": {
+    "number_of_shards": 1,
+    "number_of_replicas": 0
+  },
+
 ```
+
+
 
 ## Add two test documents
 

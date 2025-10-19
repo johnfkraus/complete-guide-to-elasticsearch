@@ -1,12 +1,12 @@
 # Adding more nodes to the cluster (for development)
 
-## Checking the cluster's health
+### Checking the cluster's health
 
 ```
 GET /_cluster/health
 ```
 
-## Checking the shard distribution
+### Checking the shard distribution
 
 ```
 GET /_cat/shards?v

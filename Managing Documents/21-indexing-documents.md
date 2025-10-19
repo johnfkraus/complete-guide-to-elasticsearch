@@ -1,6 +1,6 @@
-# Indexing documents
+## Lesson 21 - Indexing documents
 
-## Indexing document with auto generated ID:
+### Indexing document with auto generated ID:
 
 ```
 POST /products/_doc

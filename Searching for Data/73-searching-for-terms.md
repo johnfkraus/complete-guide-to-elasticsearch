@@ -1,6 +1,6 @@
-# Searching for terms
+## Lesson 73 - Searching for terms
 
-## Basic usage
+### Basic usage
 
 ```
 GET /products/_search

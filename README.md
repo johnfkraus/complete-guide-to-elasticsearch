@@ -3,7 +3,7 @@ This repository contains all of the queries used within the [Complete Guide to E
 https://dedicated-laurel-1hfqmn7b.apps.bonsaisearch.net/app/dev_tools#/console
 
 
-## Lecture 13
+### Lecture 13
 
 In the console:
 
@@ -48,7 +48,7 @@ GET /_cat/indices?v&expand_wildcards=all
 
 GET /[API]/[command]
 
-## Lesson 14 - Curl
+### Lesson 14 - Curl
 
 ```bash
 curl https://bcec8e0e4c:0122727a305d76ffd8ce@dedicated-laurel-1hfqmn7b.us-east-1.bonsaisearch.net

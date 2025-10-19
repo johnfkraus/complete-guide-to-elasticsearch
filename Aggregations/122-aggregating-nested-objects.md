@@ -1,4 +1,4 @@
-# Aggregating nested objects
+## Lesson 122 - Aggregating nested objects
 
 ```
 GET /department/_search

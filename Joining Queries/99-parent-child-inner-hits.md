@@ -1,6 +1,6 @@
-# Parent/child inner hits
+## Lesson 99 - Parent/child inner hits
 
-## Including inner hits for the `has_child` query
+### Including inner hits for the `has_child` query
 
 ```
 GET /department/_search

@@ -2,7 +2,7 @@
 
 The from key is included; the 'to' key is excluded.
 
-## `range` aggregation
+### `range` aggregation
 
 ```
 GET /orders/_search
@@ -30,7 +30,7 @@ GET /orders/_search
 }
 ```
 
-## `date_range` aggregation
+### `date_range` aggregation
 
 ```
 GET /orders/_search
@@ -56,7 +56,7 @@ GET /orders/_search
 }
 ```
 
-## Specifying the date format
+### Specifying the date format
 
 ```
 GET /orders/_search
@@ -83,7 +83,7 @@ GET /orders/_search
 }
 ```
 
-## Enabling keys for the buckets
+### Enabling keys for the buckets
 
 ```
 GET /orders/_search
@@ -111,7 +111,7 @@ GET /orders/_search
 }
 ```
 
-## Defining the bucket keys
+### Defining the bucket keys
 
 ```
 GET /orders/_search
@@ -141,7 +141,7 @@ GET /orders/_search
 }
 ```
 
-## Adding a sub-aggregation
+### Adding a sub-aggregation
 
 ```
 GET /orders/_search

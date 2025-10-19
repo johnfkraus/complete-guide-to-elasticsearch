@@ -1,6 +1,6 @@
-# Adding documents
+## Lesson 94 - Adding documents
 
-## Adding departments
+### Adding departments
 
 ```
 PUT /department/_doc/1
@@ -18,7 +18,7 @@ PUT /department/_doc/2
 }
 ```
 
-## Adding employees for departments
+### Adding employees for departments
 
 ```
 PUT /department/_doc/3?routing=1

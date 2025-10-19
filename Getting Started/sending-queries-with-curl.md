@@ -1,6 +1,6 @@
 # Sending queries with cURL
 
-## Handling self signed certificates
+### Handling self signed certificates
 
 Local deployments of Elasticsearch are protected with a self signed certificate by default, which HTTP clients do not trust. 
 Sending a request will therefore fail with a certificate error. To fix this, we have a couple of options. 
@@ -36,7 +36,7 @@ curl --cacert config\certs\http_ca.crt [...]
 
 Alternatively, you can specify the absolute path to the file.
 
-## Authentication
+### Authentication
 All requests made to Elasticsearch must be authenticated by default.
 
 ### Local deployments
@@ -63,7 +63,7 @@ created within Kibana (Stack Management > Security > API keys). Replace `API_TOK
 curl -H "Authorization:ApiKey API_TOKEN" [...]
 ```
 
-## Adding a request body & `Content-Type` header
+### Adding a request body & `Content-Type` header
 
 To send data within the request, use the `-d` argument, e.g. for the `match_all` query. Note that using 
 single quotes does not work on Windows, so each double quote within the JSON object must be escaped.
@@ -83,7 +83,7 @@ can be done with the `Content-Type` HTTP header. Simply add it with cURL's `-H` 
 curl -H "Content-Type:application/json" [...]
 ```
 
-## Specifying the HTTP verb
+### Specifying the HTTP verb
 
 You may also specify the HTTP verb (e.g. `POST`). This is necessary for some endpoints, such as when 
 indexing documents. `GET` is assumed by default.
@@ -92,7 +92,7 @@ indexing documents. `GET` is assumed by default.
 curl -X POST [...]
 ```
 
-## All together now
+### All together now
 
 ```
 # macOS & Linux

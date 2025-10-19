@@ -31,7 +31,7 @@ GET /orders/_search
 }
 ```
 
-## Retrieving the number of distinct values
+### Retrieving the number of distinct values
 
 ```
 GET /orders/_search
@@ -47,7 +47,7 @@ GET /orders/_search
 }
 ```
 
-## Retrieving the number of values
+### Retrieving the number of values
 
 ```
 GET /orders/_search
@@ -63,7 +63,7 @@ GET /orders/_search
 }
 ```
 
-## Using `stats` aggregation for common statistics
+### Using `stats` aggregation for common statistics
 
 ```
 GET /orders/_search

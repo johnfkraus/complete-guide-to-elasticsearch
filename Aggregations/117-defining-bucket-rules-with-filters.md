@@ -29,7 +29,7 @@ GET /recipes/_search
 }
 ```
 
-## Calculate average ratings for buckets
+### Calculate average ratings for buckets
 
 ```
 GET /recipes/_search

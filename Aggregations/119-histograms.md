@@ -1,6 +1,6 @@
 ## Lesson 119 - Histograms
 
-## Distribution of `total_amount` with interval `25`
+### Distribution of `total_amount` with interval `25`
 
 ```
 GET /orders/_search

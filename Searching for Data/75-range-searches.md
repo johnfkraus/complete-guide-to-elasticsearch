@@ -1,6 +1,6 @@
-# Range searches
+## Lesson 75 - Range searches
 
-## Basic usage
+### Basic usage
 
 ```
 GET /products/_search

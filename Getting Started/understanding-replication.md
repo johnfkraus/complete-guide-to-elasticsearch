@@ -1,6 +1,6 @@
 # Understanding replication
 
-## Creating a new index
+### Creating a new index
 
 ```
 PUT /pages

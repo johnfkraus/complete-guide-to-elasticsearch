@@ -41,7 +41,7 @@ GET /orders/_search
 }
 ```
 
-## Narrowing down the aggregation context with a range query.
+### Narrowing down the aggregation context with a range query.
 
 ```
 GET /orders/_search

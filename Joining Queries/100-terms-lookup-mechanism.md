@@ -1,6 +1,6 @@
 # Terms lookup mechanism
 
-## Adding test data
+### Adding test data
 
 ```
 PUT /users/_doc/1
@@ -82,7 +82,7 @@ PUT /stories/_doc/6
 }
 ```
 
-## Querying stories from a user's followers
+### Querying stories from a user's followers
 
 ```
 GET /stories/_search

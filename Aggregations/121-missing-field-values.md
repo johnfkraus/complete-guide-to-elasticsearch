@@ -1,6 +1,6 @@
-# Missing field values
+## Lesson 121 - Missing field values
 
-## Adding test documents
+### Adding test documents
 
 ```
 PUT /orders/_doc/1001
@@ -17,7 +17,7 @@ PUT /orders/_doc/1002
 }
 ```
 
-## Aggregating documents with missing field value
+### Aggregating documents with missing field value
 
 ```
 GET /orders/_search
@@ -33,7 +33,7 @@ GET /orders/_search
 }
 ```
 
-## Combining `missing` aggregation with other aggregations
+### Combining `missing` aggregation with other aggregations
 
 ```
 GET /orders/_search
@@ -56,7 +56,7 @@ GET /orders/_search
 }
 ```
 
-## Deleting test documents
+### Deleting test documents
 
 ```
 DELETE /orders/_doc/1001

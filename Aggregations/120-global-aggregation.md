@@ -1,6 +1,6 @@
 # `global` aggregation
 
-## Break out of the aggregation context
+### Break out of the aggregation context
 
 ```
 GET /orders/_search
@@ -28,7 +28,7 @@ GET /orders/_search
 }
 ```
 
-## Adding aggregation without global context
+### Adding aggregation without global context
 
 ```
 GET /orders/_search

@@ -1,4 +1,4 @@
-# Retrieving documents by IDs
+## Lesson 74 - Retrieving documents by IDs
 
 ```
 GET /products/_search
