@@ -2,3 +2,6 @@
 .DS_Store
 data
 quickstart.md
+host.md
+host.sh
+

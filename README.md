@@ -2,8 +2,28 @@ This repository contains all of the queries used within the [Complete Guide to E
 
 https://dedicated-laurel-1hfqmn7b.apps.bonsaisearch.net/app/dev_tools#/console
 
+### Lecture 12 - Understanding the basic architecture
 
-### Lecture 13
+Cluster-a group of one or more Elasticsearch nodes instances that are connected together.  A cluster is a collection of nodes that work together to store data and provide search and indexing capabilities. It provides horizontal scalability, allowing you to add or remove nodes easily to accommodate changing requirements.
+
+node-an instance of Elasticsearch. Nodes can be deployed on separate machines or run on a single machine for development purposes. 
+
+Index-a collection of documents.  Each index is divided into multiple primary and replica shards.
+An index is a collection of documents sharing similar characteristics. It serves as the primary unit for organizing and managing data within Elasticsearch. Each document within an index is uniquely identified by a document ID. Indices are analogous to tables in a relational database.
+
+
+### Shard
+
+In Elasticsearch, a shard is a basic unit of data storage and search. Elasticsearch uses a distributed architecture to handle large amounts of data and provide scalable and efficient search capabilities. Sharding is the process of breaking down the index into smaller, more manageable pieces called shards. Understanding shards is crucial for designing and optimizing Elasticsearch clusters.
+
+Elastic is able to distribute your data across nodes by subdividing an index into shards. Each index in Elasticsearch is a grouping of one or more physical shards, where each shard is a self-contained Lucene index containing a subset of the documents in the index. By distributing the documents in an index across multiple shards, and distributing those shards across multiple nodes, Elasticsearch increases indexing and query capacity.
+
+Types of Shards
+Primary Shards: Primary shards contain the main data and handle all write operations. The number of primary shards is set when creating an index and cannot be changed later.
+
+Replica Shards: Replica shards are copies of the primary shards, serving as failover mechanisms. They improve system resilience and enable parallel search and retrieval operations.
+
+### Lecture 13 - Inspect the cluster
 
 In the console:
 
@@ -35,20 +55,17 @@ Config file:
 
 $ES_HOME/config/elasticsearch.yml
 
-CAT API-Compact and Aligned Text
+### CAT API-Compact and Aligned Text
 
 GET /_cat/nodes?v
 
-
 GET /_cat/indices?v
-
 
 GET /_cat/indices?v&expand_wildcards=all
 
-
 GET /[API]/[command]
 
-### Lesson 14 - Curl
+## Lesson 14 - Curl
 
 ```bash
 curl https://bcec8e0e4c:0122727a305d76ffd8ce@dedicated-laurel-1hfqmn7b.us-east-1.bonsaisearch.net
@@ -422,6 +439,21 @@ GET /reviews/_mapping
 
 GET /reviews/_mapping/field/content
 
+## Lesson 43 - Overview of data types
+
+https://www.elastic.co/docs/reference/elasticsearch/mapping-reference/field-data-types
+
+nested data type-similar to object but maintains object relationship.
+- Allows querying object independently.
+
+keyword-used for exact matching of values.
+- used for filtering, aggregating and sorting.
+
+For full-text searches, use the text data type instead.
+
+
+
+
 ## Lesson 48 - Retrieving mappings
 
 GET products/_mapping
@@ -442,6 +474,16 @@ GET /products/_search
 
 ## Lesson 72 - Intro to term-level queries
 
+Term queries are used to search structured data for exact values (filtering).
+- Term-level queries are not analyzed.
+  - the search value is used exactly as for inverted index lookups.
+  - can be used with data types such as keyword, numbers, dates.
+  - Don't use term level queries for the text data type.
+    - results will be unpredictable.
+    - there is no explicit error message or failure, but you dont' get the results you should.
+- Never use term level queries on text data type field.
+
+- 
 
 ## Lesson 73 - Searching for terms
 
@@ -852,8 +894,18 @@ GET /products/_search
   }
 }
 ```
+## Lesson 83 - Leaf and compound queries
+
+- Leaf queries search for values and are independent queries.
+  - term and match queries
+- Compound queries wrap other queries to produce a result.
+- 
+
+
 
 ## Lesson 84 - Querying with boolean logic
+
+https://www.elastic.co/docs/reference/query-languages/query-dsl/query-dsl-bool-query
 
 ### `must`
 
@@ -1231,6 +1283,15 @@ GET /products/_search
   }
 }
 ```
+## Lesson 85 - Query execution contexts
+
+- Filter execution context
+  - No relevance scores are calculated.
+  - Match or no match.
+  - ES doesn't spend resources on calculating relevance scores.
+
+
+
 
 ## Lesson 86 - Boosting query
 
@@ -1660,4 +1721,21 @@ from = (page_size * (page_number - 1))
 Limited to 10,000 results.
 
 Queries are stateless.
+
+
+# Section 8 - Aggregations
+
+Elasticsearch organizes aggregations into three categories:
+
+https://www.elastic.co/docs/reference/aggregations/
+
+Metric aggregations that calculate metrics, such as a sum or average, from field values.
+
+Bucket aggregations that group documents into buckets, also called bins, based on field values, ranges, or other criteria.
+
+Pipeline aggregations that take input from other aggregations instead of documents or fields.
+
+## Lesson 111 - Intro to aggregations
+
+
 
