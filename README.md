@@ -451,7 +451,15 @@ keyword-used for exact matching of values.
 
 For full-text searches, use the text data type instead.
 
+An inverted index is created for each text field.  Each text field has a dedicated inverted index.
 
+An inverted index is a sorted mapping between terms and the documents that contain them.
+
+Other data types use different data types.
+
+Numeric, dates, and geospatial fields are stored as BKD trees.  Dates are stored as long values internally.
+
+A BKD tree, or Balanced K-Dimensional tree, is an I/O-efficient dynamic data structure designed for indexing large-scale numeric and multi-dimensional data, particularly in systems like Elasticsearch and Apache Lucene.
 
 
 ## Lesson 48 - Retrieving mappings

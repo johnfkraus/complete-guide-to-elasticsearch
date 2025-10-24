@@ -390,3 +390,67 @@ must_not - Query clauses must NOT match and don't affect relevance scoring.  Cac
 
 should - Relevance scores of matching documents are boosted for each matching query clause.  Behavior can be adjusted with 'minimum_should_match'.
 
+```
+GET /products/_search
+{
+  "query": {
+    "bool": {
+      "filter": {
+        "range": {
+          "in_stock": {
+            "lte": 100
+          }
+        }
+      },
+      "must": [
+        {
+          "bool": {
+            "should": [
+              {
+                "term": {
+                  "tags.keyword": "Beer"
+                }
+              },
+              {
+                "match": {
+                  "name": "Beer"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}
+
+GET /products/_search
+{
+  "query": {
+    "bool": {
+      "filter": [
+        {
+          "range": {
+            "in_stock": {
+              "lte": 100
+            }
+          }
+        }
+      ],
+      "should": [
+        {
+          "term": {
+            "tags.keyword": "Beer"
+          }
+        },
+        {
+          "match": {
+            "name": "Beer"
+          }
+        }
+      ], 
+      "minimum_should_match": 1
+    }
+  }
+}
+```

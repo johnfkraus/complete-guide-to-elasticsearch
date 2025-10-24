@@ -2,7 +2,27 @@
 
 https://en.wikipedia.org/wiki/ISO_8601
 
-### Supplying only a date
+Three ways to specify dates:
+
+- Specially-formatted strings
+- ms since the epoch (1/1/1970) (long)
+- seconds since the epoch (integer)
+
+- Custom date formats are supported.
+
+Three supported formats:
+- Date without time.
+  - Time is optional.
+  - ES assume midnight when converting to ms.
+- Date with time.
+  - If no TZ is specified, it is assumed to be in the UTC time zone.
+- ms since epoch (long)
+
+Dates are stored as a long using UTC.
+
+_source shows how the date was supplied when doc was created, not how the date is stored for searching.
+
+### Index a document Supplying only a date
 ```
 PUT /reviews/_doc/2
 {
@@ -51,6 +71,11 @@ PUT /reviews/_doc/4
 ```
 
 ## Supplying a timestamp (milliseconds since the epoch)
+
+- Don't supply UNIX timestamps for default date field.
+- Multiply unix seconds by 1,000.
+- Don't attach a time zone.
+
 ```
 # Equivalent to 2015-07-04T12:01:24Z
 PUT /reviews/_doc/5

@@ -1,6 +1,18 @@
 ## Lesson 76 - Prefixes, wildcards & regular expressions
 
+Term level queries are used for exact matching: querying non-analyzed values with queries that are not analyzed.
+
+Exceptions: querying by prefix, wildcards and regex.
+
+
+
+
+
 ### Searching for a prefix
+
+name field must starts with 'Past'.
+
+Prefix must appear at the beginning of the term to be considered a match.
 
 ```
 GET /products/_search

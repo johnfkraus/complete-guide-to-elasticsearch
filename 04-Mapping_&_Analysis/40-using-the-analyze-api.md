@@ -1,4 +1,4 @@
-# Using the Analyze API
+## Lesson 40 - Using the Analyze API
 
 ### Analyzing a string with the `standard` analyzer
 ```
