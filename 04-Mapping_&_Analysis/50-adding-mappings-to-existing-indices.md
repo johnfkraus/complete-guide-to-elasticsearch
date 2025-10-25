@@ -1,4 +1,4 @@
-# Adding mappings to existing indices
+## Lesson 50 - Adding mappings to existing indices
 
 ## Add new field mapping to existing index
 ```

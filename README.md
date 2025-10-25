@@ -285,6 +285,9 @@ If you prefer to use other HTTP clients, it should be fairly easy to replicate t
 
 Alright, I’ll see you in the next lecture.
 
+## Lesson 17 - Add more nodes to the cluster
+
+
 ## Lesson 20-Creating and Deleting Indexes
 
 DELETE /pages

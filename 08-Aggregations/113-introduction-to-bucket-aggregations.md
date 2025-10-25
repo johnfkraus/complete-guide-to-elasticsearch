@@ -9,7 +9,7 @@ GET /orders/_search
   "aggs": {
     "status_terms": {
       "terms": {
-        "field": "status"
+        "field": "status" # or "status.keyword"?
       }
     }
   }

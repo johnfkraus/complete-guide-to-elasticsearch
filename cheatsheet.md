@@ -3,6 +3,8 @@
 https://coralogix.com/blog/42-elasticsearch-query-examples-hands-on-tutorial/
 
 
+GET /_cluster/health
+
 GET /_cat/indices?v
 
 GET /_cat
