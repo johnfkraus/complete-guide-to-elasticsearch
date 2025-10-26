@@ -1,0 +1,123 @@
+{
+  "took": 2,
+  "timed_out": false,
+  "_shards": {
+    "total": 1,
+    "successful": 1,
+    "skipped": 0,
+    "failed": 0
+  },
+  "hits": {
+    "total": {
+      "value": 7,
+      "relation": "eq"
+    },
+    "max_score": 1,
+    "hits": [
+      {
+        "_index": "movies",
+        "_id": "KYgR95kBa2Q2SW-AJS9D",
+        "_score": 1,
+        "_source": {
+          "name": "Justice League",
+          "genre": "Action",
+          "summary": "Fueled by his restored faith in humanity and inspired by Superman's selfless act, Bruce Wayne enlists the help of his newfound ally, Diana Prince, to face an even greater enemy",
+          "yearofrelease": 201,
+          "metascore": 45,
+          "votes": 275122,
+          "collection_date": "2025-10-01",
+          "rating": 6.6
+        }
+      },
+      {
+        "_index": "movies",
+        "_id": "KogR95kBa2Q2SW-AWS8D",
+        "_score": 1,
+        "_source": {
+          "name": "Justice League",
+          "genre": "Action",
+          "summary": "Fueled by his restored faith in humanity and inspired by Superman's selfless act, Bruce Wayne enlists the help of his newfound ally, Diana Prince, to face an even greater enemy",
+          "yearofrelease": 201,
+          "metascore": 45,
+          "collection_date": "2025-10-02",
+          "votes": 275122,
+          "rating": 6.6
+        }
+      },
+      {
+        "_index": "movies",
+        "_id": "K4gS95kBa2Q2SW-Ami_v",
+        "_score": 1,
+        "_source": {
+          "name": "Justice League",
+          "genre": "Action",
+          "summary": "Fueled by his restored faith in humanity and inspired by Superman's selfless act, Bruce Wayne enlists the help of his newfound ally, Diana Prince, to face an even greater enemy",
+          "yearofrelease": 201,
+          "metascore": 45,
+          "collection_date": "2025-10-03",
+          "votes": 275122,
+          "rating": 6.6
+        }
+      },
+      {
+        "_index": "movies",
+        "_id": "LYgi95kBa2Q2SW-AhS_P",
+        "_score": 1,
+        "_source": {
+          "name": "Thor Ragnarok",
+          "genre": "Action",
+          "summary": "Thor is imprisoned on the planet Sakaar, and must race  against time to return to Asgard and stop Ragnarök, the destruction of his world, at the hands of the powerful and ruthless villain Hela",
+          "yearofrelease": 2017,
+          "metascore": 74,
+          "collection_date": "2025-10-04",
+          "votes": 374270,
+          "rating": 7.9
+        }
+      },
+      {
+        "_index": "movies",
+        "_id": "Logi95kBa2Q2SW-AhS_P",
+        "_score": 1,
+        "_source": {
+          "name": "Infinity War",
+          "genre": "Sci-Fi",
+          "summary": "The Avengers and their allies must be willing to sacrifice all in an attempt to defeat the powerful Thanos before his blitz of devastation and ruin puts an end to the universe",
+          "yearofrelease": 2018,
+          "metascore": 68,
+          "collection_date": "2025-10-05",
+          "votes": 450856,
+          "rating": 8.6
+        }
+      },
+      {
+        "_index": "movies",
+        "_id": "L4gi95kBa2Q2SW-AhS_P",
+        "_score": 1,
+        "_source": {
+          "name": "Christopher Robin",
+          "genre": "Comedy",
+          "summary": "A working-class family man, Christopher Robin, encounters his childhood friend Winnie-the-Pooh, who helps him to  rediscover the joys of life",
+          "yearofrelease": 2018,
+          "metascore": 60,
+          "collection_date": "2025-10-05",
+          "votes": 9648,
+          "rating": 7.9
+        }
+      },
+      {
+        "_index": "movies",
+        "_id": "LIgX95kBa2Q2SW-Azi9u",
+        "_score": 1,
+        "_source": {
+          "name": "Justice League",
+          "genre": "Action",
+          "summary": "Fueled by his restored faith in humanity and inspired by Superman's selfless act, Bruce Wayne enlists the help of his newfound ally, Diana Prince, to face an even greater enemy",
+          "yearofrelease": 201,
+          "metascore": 45,
+          "votes": 275122,
+          "rating": 7.5
+        }
+      }
+    ]
+  }
+}
