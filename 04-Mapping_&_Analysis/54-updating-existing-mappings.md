@@ -1,6 +1,8 @@
-# Updating existing mappings
+## Lesson 54 - Updating existing mappings
 
-## Generally, field mappings cannot be updated
+Slides are [here](./../elasticsearch-slides-udemy/Mapping_and_Analysis/54-Updating_existing_mappings.pdf)
+
+### Generally, field mappings cannot be updated
 
 This query won't work.
 ```
