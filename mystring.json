@@ -1,9 +1,106 @@
-{
-    "a": {
-        "b": {
-            "c": {
-                "d": "value"
-            }
+[
+    [
+        "movies",
+        "KYgR95kBa2Q2SW-AJS9D",
+        1,
+        {
+            "name": "Justice League",
+            "genre": "Action",
+            "summary": "Fueled by his restored faith in humanity and inspired by Superman's selfless act, Bruce Wayne enlists the help of his newfound ally, Diana Prince, to face an even greater enemy",
+            "yearofrelease": 201,
+            "metascore": 45,
+            "votes": 275122,
+            "collection_date": "2025-10-01",
+            "rating": 6.6
         }
-    }
-}
+    ],
+    [
+        "movies",
+        "KogR95kBa2Q2SW-AWS8D",
+        1,
+        {
+            "name": "Justice League",
+            "genre": "Action",
+            "summary": "Fueled by his restored faith in humanity and inspired by Superman's selfless act, Bruce Wayne enlists the help of his newfound ally, Diana Prince, to face an even greater enemy",
+            "yearofrelease": 201,
+            "metascore": 45,
+            "collection_date": "2025-10-02",
+            "votes": 275122,
+            "rating": 6.6
+        }
+    ],
+    [
+        "movies",
+        "K4gS95kBa2Q2SW-Ami_v",
+        1,
+        {
+            "name": "Justice League",
+            "genre": "Action",
+            "summary": "Fueled by his restored faith in humanity and inspired by Superman's selfless act, Bruce Wayne enlists the help of his newfound ally, Diana Prince, to face an even greater enemy",
+            "yearofrelease": 201,
+            "metascore": 45,
+            "collection_date": "2025-10-03",
+            "votes": 275122,
+            "rating": 6.6
+        }
+    ],
+    [
+        "movies",
+        "LYgi95kBa2Q2SW-AhS_P",
+        1,
+        {
+            "name": "Thor Ragnarok",
+            "genre": "Action",
+            "summary": "Thor is imprisoned on the planet Sakaar, and must race  against time to return to Asgard and stop Ragnar\u00f6k, the destruction of his world, at the hands of the powerful and ruthless villain Hela",
+            "yearofrelease": 2017,
+            "metascore": 74,
+            "collection_date": "2025-10-04",
+            "votes": 374270,
+            "rating": 7.9
+        }
+    ],
+    [
+        "movies",
+        "Logi95kBa2Q2SW-AhS_P",
+        1,
+        {
+            "name": "Infinity War",
+            "genre": "Sci-Fi",
+            "summary": "The Avengers and their allies must be willing to sacrifice all in an attempt to defeat the powerful Thanos before his blitz of devastation and ruin puts an end to the universe",
+            "yearofrelease": 2018,
+            "metascore": 68,
+            "collection_date": "2025-10-05",
+            "votes": 450856,
+            "rating": 8.6
+        }
+    ],
+    [
+        "movies",
+        "L4gi95kBa2Q2SW-AhS_P",
+        1,
+        {
+            "name": "Christopher Robin",
+            "genre": "Comedy",
+            "summary": "A working-class family man, Christopher Robin, encounters his childhood friend Winnie-the-Pooh, who helps him to  rediscover the joys of life",
+            "yearofrelease": 2018,
+            "metascore": 60,
+            "collection_date": "2025-10-05",
+            "votes": 9648,
+            "rating": 7.9
+        }
+    ],
+    [
+        "movies",
+        "LIgX95kBa2Q2SW-Azi9u",
+        1,
+        {
+            "name": "Justice League",
+            "genre": "Action",
+            "summary": "Fueled by his restored faith in humanity and inspired by Superman's selfless act, Bruce Wayne enlists the help of his newfound ally, Diana Prince, to face an even greater enemy",
+            "yearofrelease": 201,
+            "metascore": 45,
+            "votes": 275122,
+            "rating": 7.5
+        }
+    ]
+]
