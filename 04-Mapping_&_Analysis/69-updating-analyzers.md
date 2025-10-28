@@ -36,7 +36,7 @@ GET /analyzer_test/_search
 }
 ```
 
-## Close `analyzer_test` index
+### Close `analyzer_test` index
 ```
 POST /analyzer_test/_close
 ```

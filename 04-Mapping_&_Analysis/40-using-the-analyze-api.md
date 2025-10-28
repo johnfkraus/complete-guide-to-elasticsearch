@@ -9,7 +9,7 @@ POST /_analyze
 }
 ```
 
-## Building the equivalent of the `standard` analyzer
+### Building the equivalent of the `standard` analyzer
 ```
 POST /_analyze
 {

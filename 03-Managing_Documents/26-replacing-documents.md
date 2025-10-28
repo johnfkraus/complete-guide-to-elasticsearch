@@ -1,4 +1,4 @@
-# Replacing documents
+## Lesson 26 - Replacing documents
 
 ```
 PUT /products/_doc/100

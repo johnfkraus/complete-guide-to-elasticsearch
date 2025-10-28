@@ -9,7 +9,7 @@ Alias is a query level construct; not used for indexing.
 ES also supports index aliases.  Typically used for large data volumes.
 
 
-## Add `comment` alias pointing to the `content` field
+### Add `comment` alias pointing to the `content` field
 ```
 PUT /reviews/_mapping
 {

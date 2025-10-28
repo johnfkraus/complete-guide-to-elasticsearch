@@ -1,4 +1,4 @@
-# Update by query
+## Lesson 33 - Update by query
 
 ### Updating documents matching a query
 
@@ -16,7 +16,7 @@ POST /products/_update_by_query
 }
 ```
 
-## Ignoring (counting) version conflicts
+### Ignoring (counting) version conflicts
 
 The `conflicts` key may be added as a query parameter instead, i.e. `?conflicts=proceed`.
 
@@ -33,7 +33,7 @@ POST /products/_update_by_query
 }
 ```
 
-## Matches all of the documents within the `products` index
+### Matches all of the documents within the `products` index
 
 ```
 GET /products/_search

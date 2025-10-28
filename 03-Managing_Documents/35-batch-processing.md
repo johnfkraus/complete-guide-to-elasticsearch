@@ -1,6 +1,6 @@
-# Batch processing
+## Lesson 35 - Batch processing
 
-## Indexing documents
+### Indexing documents
 
 ```
 POST /_bulk
@@ -10,7 +10,7 @@ POST /_bulk
 { "name": "Milk Frother", "price": 149, "in_stock": 14 }
 ```
 
-## Updating and deleting documents
+### Updating and deleting documents
 
 ```
 POST /_bulk
@@ -19,7 +19,7 @@ POST /_bulk
 { "delete": { "_index": "products", "_id": 200 } }
 ```
 
-## Specifying the index name in the request path
+### Specifying the index name in the request path
 
 ```
 POST /products/_bulk
@@ -28,7 +28,7 @@ POST /products/_bulk
 { "delete": { "_id": 200 } }
 ```
 
-## Retrieving all documents
+### Retrieving all documents
 
 ```
 GET /products/_search

@@ -7,7 +7,7 @@ Coercion only works for fields that are already mapped.
 Use the nested data type for arrays of objects if you need to query the objects independently
 
 
-## Arrays of strings are concatenated when analyzed
+### Arrays of strings are concatenated when analyzed
 ```
 POST /_analyze
 {

@@ -1,12 +1,12 @@
-# Creating & Deleting Indices
+## Lesson 20 - Creating & Deleting Indices
 
-## Deleting an index
+### Deleting an index
 
 ```
 DELETE /pages
 ```
 
-## Creating an index (with settings)
+### Creating an index (with settings)
 
 ```
 PUT /products

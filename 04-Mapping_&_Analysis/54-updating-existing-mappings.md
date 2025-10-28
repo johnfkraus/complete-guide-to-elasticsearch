@@ -18,7 +18,7 @@ PUT /reviews/_mapping
 }
 ```
 
-## Some mapping parameters can be changed
+### Some mapping parameters can be changed
 
 The `ignore_above` mapping parameter _can_ be updated, for instance.
 ```

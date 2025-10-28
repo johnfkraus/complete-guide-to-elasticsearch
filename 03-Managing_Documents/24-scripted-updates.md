@@ -11,7 +11,7 @@ POST /products/_update/100
 }
 ```
 
-## Assigning an arbitrary value to `in_stock`
+### Assigning an arbitrary value to `in_stock`
 
 ```
 POST /products/_update/100
@@ -22,7 +22,7 @@ POST /products/_update/100
 }
 ```
 
-## Using parameters within scripts
+### Using parameters within scripts
 
 ```
 POST /products/_update/100
@@ -36,7 +36,7 @@ POST /products/_update/100
 }
 ```
 
-## Conditionally setting the operation to `noop`
+### Conditionally setting the operation to `noop`
 
 ```
 POST /products/_update/100
@@ -53,7 +53,7 @@ POST /products/_update/100
 }
 ```
 
-## Conditionally update a field value
+### Conditionally update a field value
 
 ```
 POST /products/_update/100
@@ -68,7 +68,7 @@ POST /products/_update/100
 }
 ```
 
-## Conditionally delete a document
+### Conditionally delete a document
 
 ```
 POST /products/_update/100
