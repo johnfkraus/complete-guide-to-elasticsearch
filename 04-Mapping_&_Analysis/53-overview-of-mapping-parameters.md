@@ -8,8 +8,7 @@ Slides are [here](./../elasticsearch-slides-udemy/Mapping_and_Analysis/53-Overvi
 
 - To customize date field formats using Java DateFormatter syntax.
 
-Instructor recommends the default format.  ISO-8601
-
+Instructor recommends using the default format.  ISO-8601
 
 ### properties
 

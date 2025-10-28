@@ -2,6 +2,8 @@
 
 Slides are [here](./../elasticsearch-slides-udemy/Mapping_and_Analysis/54-Updating_existing_mappings.pdf)
 
+For filtering, the keyword data type is ideal.
+
 ### Generally, field mappings cannot be updated
 
 This query won't work.

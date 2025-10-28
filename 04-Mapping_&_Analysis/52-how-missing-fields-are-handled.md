@@ -1,4 +1,4 @@
-## Lesson 51 -
+## Lesson 52 - How missing fields are handled
 
 All fields in ES are optional.
 

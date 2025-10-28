@@ -1,5 +1,7 @@
 This repository contains all of the queries used within the [Complete Guide to Elasticsearch course](https://l.codingexplained.com/r/elasticsearch-course?src=github).
 
+Bonsai Elasticsearch Dev Tools Console:
+
 https://dedicated-laurel-1hfqmn7b.apps.bonsaisearch.net/app/dev_tools#/console
 
 ### Lecture 12 - Understanding the basic architecture
@@ -1518,6 +1520,8 @@ GET /recipes/_search
 ### Importing test data
 
 Follow [these instructions](/Managing%20Documents/importing-data-with-curl.md) and specify `recipes-bulk.json` as the file name.
+
+recipes-bulk.json
 
 curl -H "Content-Type: application/x-ndjson" -XPOST https://bcec8e0e4c:0122727a305d76ffd8ce@dedicated-laurel-1hfqmn7b.us-east-1.bonsaisearch.net/recipes/_bulk --data-binary "@recipes-bulk.json"
 

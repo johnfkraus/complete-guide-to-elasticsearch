@@ -1,6 +1,15 @@
-# Source filtering
+## Lesson 55—Source filtering
 
-## Excluding the `_source` field altogether
+By default the entire contents of the _source field are returned.
+
+Removing fields can improve performance.
+
+You can query to find the document id and use it to retrieve information from some other data store.
+
+### Excluding the `_source` field altogether
+
+Set "_source" = false.
+
 
 ```
 GET /recipes/_search
@@ -60,7 +69,7 @@ GET /recipes/_search
 }
 ```
 
-## Including all of the `ingredients` object's keys, except the `name` key
+## From _source, including all of the `ingredients` object's keys, except the `name` key. I.e., exclude one key.
 
 ```
 GET /recipes/_search

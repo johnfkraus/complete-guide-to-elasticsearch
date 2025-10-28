@@ -1,5 +1,9 @@
 # Reindexing documents with the Reindex API
 
+https://www.elastic.co/guide/en/elasticsearch/reference/current/docs-reindex.html
+
+Slides are [here](./../elasticsearch-slides-udemy/Mapping_and_Analysis/55-Reindexing_documents_with_the_Reindex_API.pdf)
+
 ## Add new index with new mapping
 ```
 PUT /reviews_new

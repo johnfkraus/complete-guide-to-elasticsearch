@@ -1,4 +1,4 @@
-# Importing data with cURL
+## Lesson 36 - Importing data with cURL
 
 ### Navigating to bulk file directory
 
@@ -40,3 +40,18 @@ GET /_cat/shards?v
 
 
 curl -H "Content-Type: application/x-ndjson" -XPOST https://bcec8e0e4c:0122727a305d76ffd8ce@dedicated-laurel-1hfqmn7b.us-east-1.bonsaisearch.net/products/_bulk --data-binary "@products-bulk.json"
+
+# Works:
+
+curl -H "Content-Type: application/x-ndjson" -XGET $ESHOST/_cat/indices
+
+
+curl -H "Content-Type: application/x-ndjson" -XPOST $ESHOST/products/_bulk --data-binary "@products-bulk.json"
+
+### Create recipes index and import data
+
+- Create the recipes index (see 88-querying-nested-objects.md)
+
+- Import the recipes data:
+
+curl -H "Content-Type: application/x-ndjson" -XPOST $ESHOST/recipes/_bulk --data-binary "@recipes-bulk.json"
