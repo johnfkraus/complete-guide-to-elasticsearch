@@ -3,6 +3,14 @@ This repository contains all of the queries used within the [Complete Guide to E
 
 https://dedicated-laurel-1hfqmn7b.apps.bonsaisearch.net/app/dev_tools#/console
 
+https://www.geeksforgeeks.org/cloud-computing/elasticsearch-concept-of-painless/
+
+https://alexmarquardt.com/category/painless/
+
+https://search-guard.com/blog/elasticsearch-painless-alerting-primer/
+
+
+
 ### Lecture 12 - Understanding the basic architecture
 
 Cluster-a group of one or more Elasticsearch nodes instances that are connected together.  A cluster is a collection of nodes that work together to store data and provide search and indexing capabilities. It provides horizontal scalability, allowing you to add or remove nodes easily to accommodate changing requirements.
