@@ -1,0 +1,24 @@
+[
+  {
+    "sec": {
+      "abc": 1,
+      "def": 2
+    },
+    "ccd": {
+      "FIRST_NAME": "Joe",
+    },
+    "LAST_NAME": "Smith",
+    "CITIZENSHIP": "CN",
+    "VISA": [
+      {
+        "VISA_NUMBER": 244222,
+        "VISA_CLASS_CODE": "B1"
+      },
+      {
+        "VISA_NUMBER": 244223,
+        "VISA_CLASS_CODE": "XY"
+      }
+    ]
+  },
+  {}
+]

@@ -5,6 +5,9 @@ import sys
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 
+print(logger)
+
+
 # Create a handler for standard output (console)
 console_handler = logging.StreamHandler(sys.stdout)
 console_handler.setLevel(logging.INFO)
