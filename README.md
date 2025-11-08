@@ -488,6 +488,37 @@ PUT /products/_doc/123?version=521&version_type=external
 
 [Slides](/Users/blauerbock/workspaces/complete-guide-to-elasticsearch/elasticsearch-slides-udemy/Managing_Documents/33-Update_by_query.pdf)
 
+We need to use a script:
+
+POST /products/_update_by_query
+{
+  "conflicts": "proceed",
+  "script": {
+    "source": "ctx._source.in_stock--"
+  },
+  "query": {
+    "match_all": {}
+  }
+}
+
+"bonsai_exception",
+"reason": "Update by query is for business+ only"
+
+Steps in Update by Query:
+
+1. POST /products/_update_by_query
+2. Take snapshot of the index.
+- Snapshot prevents overwriting changes made after the snapshot was taken.
+- Query can take some time.
+- Each document's primary term and sequence number is used.  
+  - A doc is only updated if the values match from the snapshot.
+  - "Optimistic concurrency control"
+  - # of conflicts is returned under the "version_conflicts" key.
+  - Avoid aborting the query using "conflicts": "proceed".
+    - Version conflicts will be counted but query will not be aborted.
+3. Search query is sent to each of the shards to find all matching documents. 
+4. When a match is found, a bulk request is sent to update those documents.  Uses scroll api internally.  Each pair of search and bulk requests are sent sequentially (one at a time).
+5. Should there be an error in the search query or bulk update, ES will try up to 10 times.  If the affected query is still not successful, the whole query is aborted.  The failures will then be specified in the results under the failures key.  The query is aborted and NOT rolled back.  Docs that were updated will remain updated even if the request failed.  The query is not run within a transaction, as with RDBMS.  If the query can partially succeed or fail, it will return information you can use to deal with it.
 
 
 
