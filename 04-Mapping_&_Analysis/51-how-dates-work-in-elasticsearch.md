@@ -5,7 +5,7 @@ https://en.wikipedia.org/wiki/ISO_8601
 Three ways to specify dates:
 
 - Specially-formatted strings
-- ms since the epoch (1/1/1970) (long)
+- milliseconds since the epoch (1/1/1970) (long)
 - seconds since the epoch (integer)
 
 - Custom date formats are supported.
@@ -13,7 +13,7 @@ Three ways to specify dates:
 Three supported formats:
 - Date without time.
   - Time is optional.
-  - ES assume midnight when converting to ms.
+  - ES assumes midnight when converting to ms.
 - Date with time.
   - If no TZ is specified, it is assumed to be in the UTC time zone.
 - ms since epoch (long)
@@ -101,3 +101,74 @@ GET /reviews/_search
   }
 }
 ```
+
+## Testing the `standard` analyzer on a date
+```
+POST /_analyze
+{
+  "text": "2015-03-27",
+  "analyzer": "standard"
+}
+POST /_analyze
+{
+  "text": "2015-04-15T13:07:41Z",
+  "analyzer": "standard"
+}
+POST /_analyze
+{
+  "text": "2015-01-28T09:21:51+01:00",
+  "analyzer": "standard"
+}
+POST /_analyze
+{
+  "text": 1436011284000,
+  "analyzer": "standard"
+}
+
+```
+
+GET /my-date-index/_search
+{
+  "query": {
+    "match_all": {}
+  }
+}
+GET /my-date-index/_search
+{
+  "query": {
+    "match_all": {}
+  },
+  "size": 0,
+  "track_total_hits": true
+}
+
+PUT my-date-index
+{
+  "mappings": {
+    "properties": {
+      "date": {
+        "type":   "date",
+        "format": "yyyy-MM-dd"
+      }
+    }
+  }
+}
+GET /_cat/indices
+GET /my-date-index/_mapping
+POST /my-date-index/_doc
+{
+  "name": "Coffee Maker",
+  "price": 64,
+  "in_stock": 10,
+  "date": "2015-01-01"
+}
+POST /my-date-index/_doc
+{
+  "name": "Ice Cream Maker",
+  "price": 44,
+  "in_stock": 3,
+  "date": "2015-04-15T13:07:41Z"
+}
+GET /
+
+

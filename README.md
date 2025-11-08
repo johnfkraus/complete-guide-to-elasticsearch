@@ -548,9 +548,9 @@ GET /products/_search
 
 curl -X GET -H "Content-Type:application/json" "${ESHOST}/products/_search" -d '{ "query": { "match_all": {} } }'
 
-
-
 ## Lesson 42 - Intro to mapping
+
+/Users/blauerbock/workspaces/complete-guide-to-elasticsearch/elasticsearch-slides-udemy/04-Mapping_and_Analysis/42-Introduction_to_mapping.pdf
 
 GET /_mapping
 
@@ -562,7 +562,14 @@ GET /reviews/_mapping/field/content
 
 ## Lesson 43 - Overview of data types
 
+Slides:
+/Users/blauerbock/workspaces/complete-guide-to-elasticsearch/elasticsearch-slides-udemy/04-Mapping_and_Analysis/43-Overview_of_data_types.pdf
+
+Link:
 https://www.elastic.co/docs/reference/elasticsearch/mapping-reference/field-data-types
+
+ 
+
 
 nested data type-similar to object but maintains object relationship.
 - Allows querying object independently.
