@@ -1,3 +1,5 @@
+# Complete Guide to Elasticsearch - Udemy
+
 This repository contains all of the queries used within the [Complete Guide to Elasticsearch course](https://l.codingexplained.com/r/elasticsearch-course?src=github).
 
 
@@ -10,6 +12,71 @@ https://alexmarquardt.com/category/painless/
 https://search-guard.com/blog/elasticsearch-painless-alerting-primer/
 
 
+### Lecture 10 - Installing ES and Kibana on MacOS and Linux
+
+Download the archives.  
+
+ES contains Java.  Kibana contains Node.js.
+
+#### Elasticsearch
+
+Extract the archive.  Rename the directory to get rid of version number.  cd into the directory.
+
+From the elasticsearch directory:
+
+bin/elasticsearch
+
+ES starts and is set up with a superuser 'elastic' and password, found in the stdout from startup.
+
+Save the password.
+
+Resetting elastic user's password:
+
+bin/elasticsearch-reset-password -u elastic
+
+TLS certs are also created.  Data is encrypted during transfer.
+
+Enrollment token is also created for Kibana.  Valid for 30 minutes.
+
+Generate a new Kibana enrollment token:
+
+bin/elasticsearch-create-enrollment-token --scope kibana
+
+#### Kibana
+
+If MacOS, disable gatekeeper for the Kibana directory.  
+
+From the parent directory of the kibana directory:
+
+elastic-stack xattr -d -r com.apple.quarantine kibana
+
+cd kibana
+
+bin/kibana
+
+Browse to the URL + token output in the terminal.
+
+Paste the enrollment token into the web input box.
+
+In the Welcome to Elastic login page, login as elastic user with password from terminal.
+
+### Set up ES and Kibana on Windows
+
+Unzip.  Circumvent "filepath too long" error with 7zip or other program.
+
+Run:
+
+bin\elasticsearch.bat
+
+bin\kibana.bat
+
+Open the url+token from the kibana start terminal.
+
+Paste enrollment token.
+
+(Or click button configure manually)
+
+Login to kibana as elastic user.
 
 ### Lecture 12 - Understanding the basic architecture
 
@@ -74,7 +141,17 @@ GET /_cat/indices?v&expand_wildcards=all
 
 GET /[API]/[command]
 
-## Lesson 14 - Curl
+## Lesson 14 - Sending Queries with Curl
+
+Kibana automatically sets Content-Type and authentication headers.
+
+Download curl from here: https://curl.se/download.html
+
+Conda or cygwin may already have curl.
+
+
+
+
 
 ```bash
 curl https://bcec8e0e4c:0122727a305d76ffd8ce@dedicated-laurel-1hfqmn7b.us-east-1.bonsaisearch.net
@@ -130,9 +207,7 @@ curl $ESHOST | jq .
 
 ### Sending requests to Elasticsearch with curl
 
-I do want to show you how to run queries with cURL as well, just in case you prefer to do that.
-
-You can use other HTTP clients as well, such as Postman.
+You can run queries with cURL or other HTTP clients as well, such as Postman.
 
 You should already have cURL installed with the exception being for some old versions of Windows
 
@@ -145,6 +220,8 @@ The GET HTTP verb is implicitly assumed if none is specific, but we can also spe
 Let’s send the request.
 
 curl http://localhost:9200
+
+With explicit HTTP verb:
 
 curl -X GET http://localhost:9200
 
@@ -170,16 +247,15 @@ This flag instructs cURL to ignore the certificate error, and if you look closel
 
 This was an easy solution and it works just fine for local development, but the more correct approach is to provide cURL with the CA certificate with the "cacert" argument.
 
+From the elasticsearch root directory (or use absolute path):
+
+curl --cacert config/certs/http_cs.crt -X GET https://localhost:9200
+
 The CA certificate is located within the config/certs directory as you can see.
 
 If your working directory is the Elasticsearch root directory, you can specify the relative path just like I did.
 
 Otherwise you can use an absolute path as well.
-
-From the elasticsearch root directory (or use absolute path)
-
-curl --cacert config/certs/http_cs.crt -X GET https://localhost:9200
-
 
 Running the command, you can see that the certificate error went away with this approach as well.
 
@@ -197,7 +273,6 @@ For local deployments, the password is the one that was generated the first time
 
 curl --cacert config/certs/http_cs.crt -u elastic -X GET https://localhost:9200
 
-
 When running the command, cURL will prompt us to enter our password.
 
 Perfect, that worked as intended.
@@ -212,9 +287,7 @@ With this approach, cURL will not prompt us to enter the password when running t
 
 curl --cacert config/certs/http_cs.crt -u elastic:password -X GET https://localhost:9200
 
-The password will, however, be exposed within your terminal, so this is not ideal from a
-
-security perspective - especially when communicating with a production cluster.
+The password will, however, be exposed within your terminal, so this is not ideal from a security perspective - especially when communicating with a production cluster.
 
 Anyway, that was the most basic request we could send.
 
@@ -230,8 +303,6 @@ We will get back to searching for data later, so I will just use the simplest po
 
 To specify the data, we can use cURL’s -d argument.
 
-Let me just type it out.
-
 curl --cacert config/certs/http_cs.crt -u elastic:password -X GET https://localhost:9200/products/_search -d '{ "query": { "match_all": {} } }'
 
 curl --cacert config/certs/http_cs.crt -u elastic:password -X GET "${ESHOST}/products/_search" -d '{ "query": { "match_all": {} } }'
@@ -244,9 +315,9 @@ Don’t worry about the JSON object, but here is a formatted version of it anywa
 
 Notice how I enclosed it within single quotes to avoid having to escape all of the double quotes with backslashes.
 
-That approach doesn’t work on Windows because it doesn’t like single quotes.
+**That approach doesn’t work on Windows because it doesn’t like single quotes.
 
-Instead, you need to wrap the argument within double quotes and then escape each double quote within the JSON object.
+Instead, you need to wrap the argument within double quotes and then escape each double quote within the JSON object.**
 
 You can see an example on your screen, and you can copy it from within the GitHub repository to save some typing.
 
@@ -265,20 +336,20 @@ Because Elasticsearch expects to receive JSON, we need to explicitly define whic
 That’s done by specifying a Content-Type header with a value of application/json.
 
 That can be done with the -H argument as follows.
-
+```json
 curl --cacert config/certs/http_cs.crt -u elastic:password -X GET -H "Content-Type:application/json"  https://localhost:9200/products/_search -d '{ "query": { "match_all": {} } }'
 
 curl -X GET "${ESHOST}/products/_search" -H "Content-Type:application/json" -d '{ "query": { "match_all": {} } }'
-
-
+```
 
 
 That should fix the error, so let’s send the request again.
+```json
 
 curl -X GET "${ESHOST}/products/_search" -H "Content-Type:application/json" -d '{ "query": { "match_all": {} } }'
 
 {"error":{"root_cause":[{"type":"index_not_found_exception","reason":"no such index [products]","index":"products","resource.id":"products","resource.type":"index_or_alias","index_uuid":"_na_"}],"type":"index_not_found_exception","reason":"no such index [products]","index":"products","resource.id":"products","resource.type":"index_or_alias","index_uuid":"_na_"},"status":404}%
-
+```
 
 Indeed the header error went away.
 
@@ -412,6 +483,13 @@ PUT /products/_doc/123?version=521&version_type=external
   "price": 49,
   "in_stock": 10
 }
+
+## Lesson 33 - Update by Query
+
+[Slides](/Users/blauerbock/workspaces/complete-guide-to-elasticsearch/elasticsearch-slides-udemy/Managing_Documents/33-Update_by_query.pdf)
+
+
+
 
 ## Lesson 35 - Batch processing
 
