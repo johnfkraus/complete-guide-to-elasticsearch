@@ -1,5 +1,8 @@
 ## Lesson 75 - Range searches
 
+https://www.epochconverter.com/
+
+
 ### Basic usage
 
 ```
@@ -109,4 +112,7 @@ GET /products/_search
 yyyy/MM/dd HH:mm:ss || 
 yyyy/MM/dd ||
 epoch_millis
+
+
+https://www.epochconverter.com/
 

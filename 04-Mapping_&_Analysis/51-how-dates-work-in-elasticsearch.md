@@ -169,6 +169,408 @@ POST /my-date-index/_doc
   "in_stock": 3,
   "date": "2015-04-15T13:07:41Z"
 }
-GET /
+
+DELETE /my-date-index
+PUT my-date-index
+{
+  "mappings": {
+    "properties": {
+      "created": {
+        "type": "date"
+      },
+      "expires": {
+        "type": "date"
+      },
+      "date_text": {
+        "type": "text"
+      }
+    }
+  }
+}
+GET /my-date-index/_search
+{
+  "query": {
+    "match_all": {}
+  }
+}
+GET /my-date-index/_search
+{
+  "query": {
+    "match_all": {}
+  },
+  "size": 0,
+  "track_total_hits": true
+}
+
+
+GET /_cat/indices
+GET /my-date-index/_mapping
+POST /my-date-index/_doc
+{
+  "name": "Coffee Maker",
+  "price": 64,
+  "in_stock": 10,
+  "created": 1744722461000,
+  "expires": "2025-04-15T13:07:41Z",
+  "date_text": "2026-04-15T13:07:41Z",
+  "date_implicit": "2028-04-15T13:07:41Z"
+}
+POST /my-date-index/_doc
+{
+  "name": "Ice Cream Maker",
+  "price": 44,
+  "in_stock": 3,
+  "created": 1420074021000,
+  "expires": "2015-01-01T01:00:21Z",
+  "date_text": "2016-04-15T13:07:41Z",
+  "date_implicit": "2017-04-15T13:07:41Z"
+}
+POST /my-date-index/_doc
+{
+  "name": "Dog food",
+  "price": 23,
+  "in_stock": 5,
+  "date": "2007-04-15T13:07:41"
+}
+POST /my-date-index/_doc
+{
+  "name": "Bed",
+  "price": 144,
+  "in_stock": 11,
+  "created": 1176642461000,
+  "expires": "2007-04-15T13:07:41Z"
+}
+POST /my-date-index/_doc
+{
+  "name": "Chair 2",
+  "price": 101,
+  "in_stock": 7,
+  "created": 1744722461000,
+  "date": "2025-04-15T13:07:41Z"
+}
+GET /my-date-index/_search
+{
+  "query": {
+    "date_text": "2016"
+  }
+}
+GET /my-date-index/_search
+{
+  "query": {
+    "range": {
+      "price": {
+        "gte": 100
+      }
+    } 
+  }
+}
+
+GET /my-date-index/_search
+{
+  "query": {
+    "range": {
+      "date": {
+        "gt": "2015-03-01"
+      }
+    } 
+  }
+}
+GET /my-date-index/_search
+{
+  "query": {
+    "term": {
+      "date_text": "2015"
+    }
+  }
+}
+GET /my-date-index/_search
+{
+  "query": {
+    "range": {
+      "created": {
+        "gt": "2020-01-01"
+      }
+    } 
+  }
+}
+
+
+
+DELETE /my-date-index
+PUT my-date-index
+{
+  "mappings": {
+    "properties": {
+      "epoch": {
+        "type": "date"
+      },
+      "expires": {
+        "type": "date"
+      },
+      "date_text": {
+        "type": "text"
+      }
+    }
+  }
+}
+GET /my-date-index/_search
+{
+  "query": {
+    "match_all": {}
+  }
+}
+GET /my-date-index/_search
+{
+  "query": {
+    "match_all": {}
+  },
+  "size": 0,
+  "track_total_hits": true
+}
+
+
+GET /_cat/indices
+GET /my-date-index/_mapping
+POST /my-date-index/_doc
+{
+  "name": "Coffee Maker",
+  "price": 64,
+  "in_stock": 10,
+  "epoch": 1744722461000,
+  "expires": "2025-04-15T13:07:41Z",
+  "date_text": "2026-04-15T13:07:41Z",
+  "date_implicit": "2028-04-15T13:07:41Z"
+}
+POST /my-date-index/_doc
+{
+  "name": "Ice Cream Maker",
+  "price": 44,
+  "in_stock": 3,
+  "epoch": 1420074021000,
+  "expires": "2015-01-01T01:00:21Z",
+  "date_text": "2016-04-15T13:07:41Z",
+  "date_implicit": "2017-04-15T13:07:41Z"
+}
+POST /my-date-index/_doc
+{
+  "name": "Dog food",
+  "price": 23,
+  "in_stock": 5,
+  "date": "2007-04-15T13:07:41"
+}
+POST /my-date-index/_doc
+{
+  "name": "Bed",
+  "price": 144,
+  "in_stock": 11,
+  "epoch": 1176642461000,
+  "expires": "2007-04-15T13:07:41Z"
+}
+POST /my-date-index/_doc
+{
+  "name": "Chair 2",
+  "price": 101,
+  "in_stock": 7,
+  "epoch": 1744722461000,
+  "date": "2025-04-15T13:07:41Z"
+}
+GET /my-date-index/_search
+{
+  "query": {
+    "date_text": "2016"
+  }
+}
+GET /my-date-index/_search
+{
+  "query": {
+    "range": {
+      "price": {
+        "gte": 100
+      }
+    } 
+  }
+}
+
+GET /my-date-index/_search
+{
+  "query": {
+    "range": {
+      "date": {
+        "gt": "2015-03-01"
+      }
+    } 
+  }
+}
+GET /my-date-index/_search
+{
+  "query": {
+    "term": {
+      "date_text": "2015"
+    }
+  }
+}
+GET /my-date-index/_search
+{
+  "query": {
+    "range": {
+      "epoch": {
+        "gt": "2020-01-01"
+      }
+    } 
+  }
+}
+
+
+
+DELETE /my-date-index
+PUT my-date-index
+{
+  "mappings": {
+    "properties": {
+      "epoch": {
+        "type": "date"
+      },
+      "explicit": {
+        "type": "date"
+      },
+      "date_text": {
+        "type": "text"
+      }
+    }
+  }
+}
+GET /my-date-index/_search
+{
+  "query": {
+    "match_all": {}
+  }
+}
+GET /my-date-index/_search
+{
+  "query": {
+    "match_all": {}
+  },
+  "size": 0,
+  "track_total_hits": true
+}
+
+
+GET /_cat/indices
+GET /my-date-index/_mapping
+POST /my-date-index/_doc
+{
+  "name": "Coffee Maker 2",
+  "price": 64,
+  "in_stock": 10,
+  "epoch": 1744722461000,
+  "explicit": "2025-04-15T13:07:41Z",
+  "date_text": "2026-04-15T13:07:41Z",
+  "date_implicit": "2028-04-15T13:07:41Z"
+}
+POST /my-date-index/_doc
+{
+  "name": "Ice Cream Maker 2",
+  "price": 44,
+  "in_stock": 3,
+  "epoch": 1420074021000,
+  "explicit": "2015-01-01T01:00:21Z",
+  "date_text": "2016-04-15T13:07:41Z",
+  "date_implicit": "2017-04-15T13:07:41Z"
+}
+POST /my-date-index/_doc
+{
+  "name": "Dog food",
+  "price": 23,
+  "in_stock": 5,
+  "date": "2007-04-15T13:07:41"
+}
+POST /my-date-index/_doc
+{
+  "name": "Bed",
+  "price": 144,
+  "in_stock": 11,
+  "epoch": 1176642461000,
+  "explicit": "2007-04-15T13:07:41Z"
+}
+POST /my-date-index/_doc
+{
+  "name": "Chair 2",
+  "price": 101,
+  "in_stock": 7,
+  "epoch": 1744722461000,
+  "explicit": "2025-04-15T13:07:41Z"
+}
+GET /my-date-index/_search
+{
+  "query": {
+    "date_text": "2016"
+  }
+}
+GET /my-date-index/_search
+{
+  "query": {
+    "range": {
+      "price": {
+        "gte": 100
+      }
+    } 
+  }
+}
+
+GET /my-date-index/_search
+{
+  "query": {
+    "range": {
+      "explicit": {
+        "gt": "2015-03-01"
+      }
+    } 
+  }
+}
+GET /my-date-index/_search
+{
+  "query": {
+    "term": {
+      "date_text": "2016"
+    }
+  }
+}
+GET /my-date-index/_explain/FUAyZZoBCEGqWRPsVmm5
+{
+  "query": {
+    "term": {
+      "date_text": "2016"
+    }
+  }
+}
+GET /my-date-index/_explain/FUAyZZoBCEGqWRPsVmm5
+{
+  "query": {
+    "term": {
+      "date_text": "2016"
+    }
+  }
+}
+GET /my-date-index/_search
+{
+  "query": {
+    "range": {
+      "epoch": {
+        "gt": "2014-01-01"
+      }
+    } 
+  }
+}
+
+GET /my-date-index/_search
+{
+  "query": {
+    "range": {
+      "epoch": {
+        "gt": 1320074021000
+      }
+    } 
+  }
+}
 
 
