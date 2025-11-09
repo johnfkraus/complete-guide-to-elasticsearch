@@ -1,6 +1,6 @@
-# Filters
+## Filters
 
-## Adding a `filter` clause to the `bool` query
+### Adding a `filter` clause to the `bool` query
 
 ```
 GET /recipes/_search

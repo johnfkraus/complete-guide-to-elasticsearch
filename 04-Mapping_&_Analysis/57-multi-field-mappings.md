@@ -1,5 +1,14 @@
 # Multi-field mappings
 
+A field may be mapped in multiple ways.  
+- Allows you to query a field in different ways (querying the text mapping OR the keyword mapping, for example.)
+- A text field may also be mapped as a keyword field at the same time.
+  - Add ingredients:fields:keyword:type:keyword to the mapping (see below).
+    - Terms will not be lowercased in a keyword mapping.
+  - This adds another inverted index for the ingredients field.
+- We can't run aggregations on text fields.
+  - Aggregations can be run on keyword, date and number fields.
+
 ### Add `keyword` mapping to a `text` field
 ```
 PUT /multi_field_test
@@ -42,6 +51,9 @@ GET /multi_field_test/_search
 ```
 
 ### Querying the `text` mapping
+
+The "match" query is the main query used for full text searches.
+
 ```
 GET /multi_field_test/_search
 {
@@ -54,6 +66,13 @@ GET /multi_field_test/_search
 ```
 
 ## Querying the `keyword` mapping
+
+To search for exact matches, we use a "term" level query.
+
+A term query requires an exact match for the target field.
+
+The following will query the inverted index that contains the raw string values supplied at index time (i.e., values that were not analyzed.)
+
 ```
 GET /multi_field_test/_search
 {

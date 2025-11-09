@@ -574,3 +574,362 @@ GET /my-date-index/_search
 }
 
 
+DELETE /my-date-index
+PUT my-date-index
+{
+  "mappings": {
+    "properties": {
+      "epoch": {
+        "type": "date",
+        "format": "epoch_millis"
+      },
+      "explicit": {
+        "type": "date"
+      },
+      "date_text": {
+        "type": "text"
+      }
+    }
+  }
+}
+GET /my-date-index/_search
+{
+  "query": {
+    "match_all": {}
+  }
+}
+GET /my-date-index/_search
+{
+  "query": {
+    "match_all": {}
+  },
+  "size": 0,
+  "track_total_hits": true
+}
+
+GET /_cat/indices
+GET /my-date-index/_mapping
+POST /my-date-index/_doc
+{
+  "name": "Coffee Maker",
+  "price": 64,
+  "in_stock": 10,
+  "epoch": 1744722461000,
+  "explicit": "2025-04-15T13:07:41Z",
+  "date_text": "2026-04-15T13:07:41Z",
+  "date_implicit": "2028-04-15T13:07:41Z"
+}
+POST /my-date-index/_doc
+{
+  "name": "Ice Cream Maker",
+  "price": 44,
+  "in_stock": 3,
+  "epoch": 1420074021000,
+  "explicit": "2015-01-01T01:00:21Z",
+  "date_text": "2016-04-15T13:07:41Z",
+  "date_implicit": "2017-04-15T13:07:41Z"
+}
+POST /my-date-index/_doc
+{
+  "name": "Dog food",
+  "price": 23,
+  "in_stock": 5,
+  "date_implicit": "2007-04-15T13:07:41"
+}
+POST /my-date-index/_doc
+{
+  "name": "Bed",
+  "price": 144,
+  "in_stock": 11,
+  "epoch": 1176642461000,
+  "explicit": "2007-04-15T13:07:41Z"
+}
+POST /my-date-index/_doc
+{
+  "name": "Chair",
+  "price": 101,
+  "in_stock": 7,
+  "epoch": 1744722461000,
+  "explicit": "2025-04-15T13:07:41Z"
+}
+GET /my-date-index/_search
+{
+  "query": {
+    "match": {
+      "date_text": "2016"      
+    }
+  }
+}
+GET /my-date-index/_search
+{
+  "query": {
+    "range": {
+      "price": {
+        "gte": 100
+      }
+    } 
+  }
+}
+
+GET /my-date-index/_search
+{
+  "query": {
+    "range": {
+      "explicit": {
+        "gt": "2015-03-01"
+      }
+    } 
+  }
+}
+GET /my-date-index/_search
+{
+  "query": {
+    "term": {
+      "date_text": "2016"
+    }
+  }
+}
+GET /my-date-index/_explain/J4xdZZoBa2Q2SW-AUUVc
+{
+  "query": {
+    "term": {
+      "date_text": "2016"
+    }
+  }
+}
+GET /my-date-index/_explain/FUAyZZoBCEGqWRPsVmm5
+{
+  "query": {
+    "term": {
+      "date_text": "2016"
+    }
+  }
+}
+GET /my-date-index/_search
+{
+  "query": {
+    "range": {
+      "epoch": {
+        "gt": "2014-01-01"
+      }
+    } 
+  }
+}
+
+
+
+GET /my-date-index/_explain/F0BdZZoBCEGqWRPsPGkp
+{
+  "query": {
+    "range": {
+      "epoch": {
+        "gt": "2014-01-01"
+      }
+    } 
+  }
+}
+
+GET /my-date-index/_search
+{
+  "query": {
+    "range": {
+      "epoch": {
+        "gt": 1320074021000
+      }
+    } 
+  }
+}
+
+GET /my-date-index/_explain/F0BdZZoBCEGqWRPsPGkp
+{
+  "query": {
+    "range": {
+      "epoch": {
+        "gt": 1320074021000
+      }
+    } 
+  }
+}
+
+In Elasticsearch, I have an large index in which some date fields were indexed as text, not dates.  I want to be able to execute range queries on these dates.  How can I fix this without having to re-index the entire set of data?
+
+Current records:
+
+GET /my-date-index/_search
+{
+  "query": {
+    "match_all": {}
+  }
+}
+
+{
+  "took": 2,
+  "timed_out": false,
+  "_shards": {
+    "total": 1,
+    "successful": 1,
+    "skipped": 0,
+    "failed": 0
+  },
+  "hits": {
+    "total": {
+      "value": 4,
+      "relation": "eq"
+    },
+    "max_score": 1,
+    "hits": [
+      {
+        "_index": "my-date-index",
+        "_id": "KYxnZZoBa2Q2SW-AmkWT",
+        "_score": 1,
+        "_source": {
+          "name": "Coffee Maker 2",
+          "price": 64,
+          "in_stock": 10,
+          "epoch": 1744722461000,
+          "explicit": "2025-04-15T13:07:41Z",
+          "date_text": "2026-04-15T13:07:41Z",
+          "date_implicit": "2028-04-15T13:07:41Z"
+        }
+      },
+      {
+        "_index": "my-date-index",
+        "_id": "GkBnZZoBCEGqWRPssGnD",
+        "_score": 1,
+        "_source": {
+          "name": "Ice Cream Maker 2",
+          "price": 44,
+          "in_stock": 3,
+          "epoch": 1420074021000,
+          "explicit": "2015-01-01T01:00:21Z",
+          "date_text": "2016-04-15T13:07:41Z",
+          "date_implicit": "2017-04-15T13:07:41Z"
+        }
+      },
+      {
+        "_index": "my-date-index",
+        "_id": "G0BnZZoBCEGqWRPsumlT",
+        "_score": 1,
+        "_source": {
+          "name": "Dog food",
+          "price": 23,
+          "in_stock": 5,
+          "date_implicit": "2007-04-15T13:07:41"
+        }
+      },
+      {
+        "_index": "my-date-index",
+        "_id": "HEBoZZoBCEGqWRPsRGlH",
+        "_score": 1,
+        "_source": {
+          "name": "Chair 2",
+          "price": 101,
+          "in_stock": 7,
+          "epoch": 1744722461000,
+          "explicit": "2025-04-15T13:07:41Z"
+        }
+      }
+    ]
+  }
+}
+
+
+Current mapping:
+
+{
+  "my-date-index": {
+    "mappings": {
+      "properties": {
+        "date_implicit": {
+          "type": "date"
+        },
+        "date_text": {
+          "type": "text"
+        },
+        "epoch": {
+          "type": "date",
+          "format": "epoch_millis"
+        },
+        "explicit": {
+          "type": "date"
+        },
+        "in_stock": {
+          "type": "long"
+        },
+        "name": {
+          "type": "text",
+          "fields": {
+            "keyword": {
+              "type": "keyword",
+              "ignore_above": 256
+            }
+          }
+        },
+        "price": {
+          "type": "long"
+        }
+      }
+    }
+  }
+}
+
+Try range search on "date_text" field:
+
+GET /my-date-index/_search
+{
+  "query": {
+    "range": {
+      "date_text": {
+        "gt": "2014-01-01"
+      }
+    } 
+  }
+}
+
+GET my-index-/_search
+{
+  "query": {
+    "range": {
+      "your_date_field_parsed": {
+        "gte": "2024-01-01",
+        "lte": "2024-12-31"
+      }
+    }
+  }
+}
+
+To enable range queries on date fields currently indexed as text in Elasticsearch without a full reindex, you can use the following approach: Add a new date-typed field.
+Modify your index mapping to introduce a new field with a date type. This new field will store the correctly parsed date values. You can specify the format if your date strings follow a specific pattern.
+
+PUT your_index_name/_mapping
+{
+  "properties": {
+    "your_date_field_parsed": {
+      "type": "date",
+      "format": "yyyy-MM-dd HH:mm:ss||yyyy-MM-dd" // Adjust format to match your data
+    }
+  }
+}
+
+PUT my-date-index/_mapping
+  {
+    "properties": {
+      "your_date_field_parsed": {
+        "type": "date",
+        "format": "yyyy-MM-dd HH:mm:ss||yyyy-MM-dd" }
+    }
+  }
+
+POST my-date-index/_update_by_query
+{
+  "script": {
+    "source": "if (ctx._source.date_text != null) { ctx._source.your_date_field_parsed = ctx._source.date_text }",
+    "lang": "painless"
+  },
+  "query": {
+    "exists": {
+      "field": "date_text"
+    }
+  }
+}
+

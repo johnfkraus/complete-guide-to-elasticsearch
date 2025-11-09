@@ -16,4 +16,23 @@ PUT /products
     "number_of_replicas": 2
   }
 }
+
+PUT /products
+{
+  "settings": {
+    "number_of_shards": 1,
+    "number_of_replicas": 0
+  }
+}
+
+# Change the number of replicas:
+
+PUT /products/_settings
+{
+  "index": {
+    "number_of_replicas": 0
+  }
+}
+
+
 ```

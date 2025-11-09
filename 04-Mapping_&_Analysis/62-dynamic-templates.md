@@ -1,5 +1,12 @@
 # Dynamic templates
 
+elasticsearch-slides-udemy/04-Mapping_and_Analysis/62-Dynamic_templates.pdf
+
+JSON Data Types
+
+JSON supports six primary data types: string, number, boolean, null, object, and array  Strings are sequences of Unicode characters enclosed in double quotes and can include backslash-escaped characters such as \\, \", \/, \n, \r, \t, and \u followed by four hexadecimal digits  Numbers are represented in base 10 using decimal notation, with no support for octal or hexadecimal formats, and must not be NaN or Infinity  Boolean values are strictly true or false and are not enclosed in quotes  The null value represents an absence of a value and is written as null without quotes  Objects are unordered collections of key-value pairs enclosed in curly braces, where keys must be strings in double quotes and values can be any valid JSON type  Arrays are ordered sequences of values enclosed in square brackets, where elements can be of any valid JSON type and are separated by commas  These types can be nested arbitrarily to form complex data structures 
+
+
 ## Map whole numbers to `integer` instead of `long`
 ```
 PUT /dynamic_template_test

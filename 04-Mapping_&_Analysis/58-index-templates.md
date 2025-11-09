@@ -1,4 +1,14 @@
-# Index templates
+## Lesson 58 - Index templates
+
+https://www.elastic.co/guide/en/elasticsearch/reference/current/indices-put-template.html
+ 
+/Users/blauerbock/workspaces/complete-guide-to-elasticsearch/elasticsearch-slides-udemy/04-Mapping_and_Analysis/58-Index_templates.pdf
+
+Index templates are a way to automatically apply settings and mappings on index creation.
+- Works by matching index names against an index pattern.
+- Typically used for data sets that are stored in multiple indices.
+  - E.g., time series data.
+- Useful when new indexes are periodically created.  No scheduled jobs are needed
 
 ### Adding/updating an index template
 
@@ -10,7 +20,8 @@ PUT /_index_template/access-logs
   "index_patterns": ["access-logs-*"],
   "template": {
     "settings": {
-      "number_of_shards": 2,
+      "number_of_shards": 1,
+      "number_of_replicas": 0,
       "index.mapping.coerce": false
     },
     "mappings": {
@@ -39,7 +50,7 @@ PUT /_index_template/access-logs
 ### Indexing a document into a new index
 
 The index name matches the index pattern defined within the above index template. 
-The index template's settings and mappings will be therefore be applied to the new index.
+The index template's settings and mappings will therefore be applied to the new index.
 
 ```
 POST /access-logs-2023-01/_doc
