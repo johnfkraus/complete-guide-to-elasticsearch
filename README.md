@@ -598,6 +598,65 @@ GET /reviews/_mapping
 
 GET /reviews/_mapping/field/content
 
+## Lesson 58 - Introduction to Dynamic Mapping
+
+No pdf?  No code?
+
+Does not require you to define explicit field mappings before indexing documents.
+
+The first time ES encounters a field, it will automatically create a field mapping for it using "sensible" defaults.
+
+Example:
+
+```curl
+POST /my-index/_doc
+{
+  "tags": ["computer","electronics"],
+  "in_stock": 4,
+  "created_at": "2020/01/01 00:00:00"  
+}
+```
+We specified the date as a string because there is no date datatype in JSON.
+
+ES uses "date detection".  
+
+ES always chooses the long data type, since it can't know how large the numbers will be.
+
+ES adds two mappings for "tags", since it doesn't know how you intend to use the tags field.  
+- text mapping for full text searches
+- keyword for exact matches, sorting and aggregations.
+  - "ignore_above": 256, because it almost never makes sense to use such long values for sorting and aggregations.  Reduces unnecessary duplicative use of disk space.
+
+Rules for dynamic mapping:
+
+https://www.udemy.com/course/elasticsearch-complete-guide/learn/lecture/18848584#overview
+
+Elasticsearch Dynamic Mapping
+
+Elasticsearch dynamically maps new fields in incoming documents by default, using predefined rules to infer data types based on the field's content  When a new field is detected and contains a non-null value, Elasticsearch adds it to the mapping using these rules: null values do not create a field, boolean values map to the boolean type, numeric values (float or long) are mapped based on detection, and strings are classified as date, numeric, or text/keyword depending on pattern matching  Specifically, strings that match date patterns are mapped as date fields, those that pass numeric detection are mapped as float or long, and others are mapped as text with a .keyword sub-field 
+
+Dynamic mapping can be controlled using the `dynamic` parameter in index mappings. Setting it to `true` enables dynamic field creation, while `runtime` creates fields that are loaded from `_source` at query time without being indexed  Setting `dynamic` to `false` ignores new fields, and `strict` rejects documents containing unknown fields  The default behavior is `true`, enabling dynamic mapping 
+
+Date detection is enabled by default and checks string fields against patterns defined in `dynamic_date_formats`, which by default includes "strict_date_optional_time" and "yyyy/MM/dd HH:mm:ss Z||yyyy/MM/dd Z"  
+
+Date detection can be disabled by setting `date_detection` to `false`, causing new string fields to be mapped as text instead of date.  
+
+Custom date formats can be defined by modifying `dynamic_date_formats` to support specific patterns, either as an array (where the first matching pattern determines the mapping) or as a string with `||` to allow multiple formats 
+
+Numeric detection is disabled by default but can be enabled via `numeric_detection` to automatically map string representations of numbers to float or long types  This is useful when applications or languages output numbers as strings.
+
+For greater control, dynamic templates can be defined using the `dynamic_templates` parameter in index mappings. These templates allow custom rules based on field name patterns (`match`, `path_match`), data types (`match_mapping_type`), or other conditions, enabling specific mappings for new fields  Templates are processed in order, with the first matching template taking precedence  For example, a template can map all string fields with a "user_" prefix as keyword fields  Dynamic templates can also be used to map fields as runtime fields, which are not indexed but loaded from `_source` during queries 
+
+While dynamic mapping is convenient, explicit mapping is recommended for production environments to ensure precise control over data indexing and to avoid potential type conflicts 
+
+Every field in ES may contain zero or more values.
+
+Elasticsearch dynamically maps fields based on the data type detected in incoming documents. For arrays, the mapping is determined by the first non-null value within the array; if the array contains null values, no field is added until a concrete value is encountered  When a new field is detected, Elasticsearch applies default mapping rules: strings that pass date or numeric detection are mapped as date or numeric types (float or long), while other strings are mapped as text with a .keyword sub-field  Numeric values are mapped as long or double depending on their precision, boolean values as boolean, and objects as object type 
+
+Dynamic mapping behavior can be controlled using the `dynamic` parameter in index mappings, which can be set to `true` (default, automatically adds new fields), `false` (ignores new fields), or `strict` (rejects documents with unknown fields)  To customize the mapping of dynamically added fields, dynamic templates can be defined. These templates are processed in order, and the first matching template applies  For example, a dynamic template can be created to map all string fields as keyword fields instead of the default text type 
+
+For arrays, the dynamic mapping rule depends on the first non-null value, and this behavior is consistent across all data types  If a field contains an array of mixed types, the mapping is determined by the first non-null value in the array. Elasticsearch does not support dynamic mapping for all data types, and fields like geo_point or geo_shape must be explicitly mapped  Additionally, dynamic mapping can be disabled at the index level or within nested objects to prevent unintended field creation
+
 ## Lesson 71 - Intro to Searching
 
 GET /products/_search
@@ -618,8 +677,6 @@ Term queries are used to search structured data for exact values (filtering).
     - results will be unpredictable.
     - there is no explicit error message or failure, but you dont' get the results you should.
 - Never use term level queries on text data type field.
-
-- 
 
 ## Lesson 73 - Searching for terms
 
