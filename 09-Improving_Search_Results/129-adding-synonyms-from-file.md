@@ -35,7 +35,7 @@ PUT /synonyms
 }
 ```
 
-## Synonyms file (`config/analysis/synonyms.txt`)
+### Synonyms file (`config/analysis/synonyms.txt`)
 
 The synonyms file needs to be available on all nodes in the cluster!
 
