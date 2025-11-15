@@ -1,4 +1,6 @@
-# Creating custom analyzers
+## Lesson 67 -- Creating custom analyzers
+
+https://www.elastic.co/guide/en/elasticsearch/reference/current/analysis.html
 
 ## Remove HTML tags and convert HTML entities
 ```
@@ -32,7 +34,7 @@ POST /_analyze
 }
 ```
 
-## Add the `stop` token filter
+### Add the `stop` token filter
 
 This removes English stop words by default.
 ```

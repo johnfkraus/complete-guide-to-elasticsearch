@@ -1,4 +1,4 @@
-# Adding analyzers to existing indices
+## Lesson 68 -- Adding analyzers to existing indices
 
 ## Close `analyzer_test` index
 ```

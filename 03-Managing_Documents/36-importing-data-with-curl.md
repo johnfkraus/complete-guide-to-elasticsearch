@@ -35,6 +35,8 @@ First, create an API key within Kibana (Stack Management > Security > API keys).
 curl -H "Content-Type:application/x-ndjson" -H "Authorization:ApiKey API_TOKEN" -XPOST https://elastic-cloud-endpoint.com/products/_bulk --data-binary "@products-bulk.json"
 ```
 
+curl -H "Content-Type: application/x-ndjson" -XPOST https://7b7412de23:6edf5ce315f750d2b686@insightful-nutmeg-1j697w4e.us-east-1.bonsaisearch.net/products/_bulk --data-binary "@products-bulk.json"
+
 
 GET /_cat/shards?v
 

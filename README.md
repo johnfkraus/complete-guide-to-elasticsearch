@@ -11,6 +11,14 @@ https://alexmarquardt.com/category/painless/
 
 https://search-guard.com/blog/elasticsearch-painless-alerting-primer/
 
+## Lecture 9 -- Hosting Elasticsearch and Kibana on Elastic Cloud
+
+https://l.codingexplained.com/r/elastic-cloud-trial?src=es-getting-started
+
+Authenticating API requests, use header:
+Authorization: ApiKey ZXZWN2g1b0….
+
+
 
 ### Lecture 10 - Installing ES and Kibana on MacOS and Linux
 
@@ -656,6 +664,99 @@ Elasticsearch dynamically maps fields based on the data type detected in incomin
 Dynamic mapping behavior can be controlled using the `dynamic` parameter in index mappings, which can be set to `true` (default, automatically adds new fields), `false` (ignores new fields), or `strict` (rejects documents with unknown fields)  To customize the mapping of dynamically added fields, dynamic templates can be defined. These templates are processed in order, and the first matching template applies  For example, a dynamic template can be created to map all string fields as keyword fields instead of the default text type 
 
 For arrays, the dynamic mapping rule depends on the first non-null value, and this behavior is consistent across all data types  If a field contains an array of mixed types, the mapping is determined by the first non-null value in the array. Elasticsearch does not support dynamic mapping for all data types, and fields like geo_point or geo_shape must be explicitly mapped  Additionally, dynamic mapping can be disabled at the index level or within nested objects to prevent unintended field creation
+
+## Lesson 63 -- Mapping Recommendations
+
+elasticsearch-slides-udemy/04-Mapping_and_Analysis/63-Mapping_recommendations.pdf
+
+Use explicit mapping, at least for production clusters.
+- Optimized mappings save disk space.
+- Set dynamic mapping to "strict", not false.
+  - You are always in control.
+  - Setting dynamic mapping to false lets you add fields for which there are no mappings. These fields are ignored in terms of indexing. 
+  - Strict dynamic mapping avoids surprises and unexpected results.
+
+Don't always map strings as both text and keyword.
+- Typically only one is needed.
+- Each mapping requires disk space.
+  - Add a text mapping if you want to do full-text searches.
+  - Add a keyword mapping if you want to do aggregations, sorting or filtering.
+
+Disable coercion.
+- Coercion forgives you for not doing the right thing.  Try to do the right thing instead.
+- Use the correct data types whenever possible.
+
+Use appropriate numeric data types.
+- For whole numbers, the integer data type might be enough.
+
+Mapping parameters.
+
+Set doc_values to false for a field if you don't need sorting, aggregations, and scripting.
+
+Set norms to false if you won't use a field for relevance scoring.
+
+Set index to false if you don't need to filter on values.
+- You can still do aggregations, such as for time-series data.
+
+The foregoing parameters make sense for over one million documents.
+
+## Lesson 64 - Stemming and Stop Words
+
+Stop words are filtered out during the analysis process. They provide little or no value for relevance scoring.
+
+There is not much need to remove stop words due to improvements in the relevance algorithm.
+
+
+## Lesson 65 -- Analyzers and Search Queries
+
+The same analyzer is used for indexing and searching.
+
+## Lesson 66 - Analyzers and search queries
+
+https://www.elastic.co/docs/reference/text-analysis/analyzer-reference
+
+standard_analyzer
+
+- Splits by word.  Splits text at word boundaries and removes punctuation.
+  - Done by standard tokenizer.
+- Lowercases letters with the lowercase token filter.
+- Contains the stop token filter (disabled by default).
+
+simple analyzer
+
+- Split the input text whenever it encounters anything other than a letter.
+- Lowercases with the lowercase tokenizer, not a token filter (unusual, a token hack to avoid passing through the input twice).
+
+whitespace analyzer
+
+- Splits text into tokens by whitespace.
+- Does NOT lowercase letters.
+
+keyword analyzer
+
+- No-op analyzer that leaves the input intact, outputting it as a single term.
+- Used for keyword fields by default.
+  - Used for exact matching.
+
+pattern analyzer
+
+- Lets you define a regular expression to match token separators.
+- The regex should match whatever should split the text into tokens.
+- The default pattern matches all non-word characters (\W+).
+- Lowercases letters by default, but this can be disabled.
+
+There are also language-specific analyzers.
+
+
+
+## Lesson 67 - Creating custom analyzers
+
+https://www.elastic.co/guide/en/elasticsearch/reference/current/analysis.html
+
+## Lesson 68 -- Adding analyzers to existing indexes
+
+
+
 
 ## Lesson 71 - Intro to Searching
 
