@@ -1,6 +1,6 @@
-# Affecting relevance scoring with proximity
+## Lesson 125 -- Affecting relevance scoring with proximity
 
-## A simple `match` query within a `bool` query
+### A simple `match` query within a `bool` query
 
 ```
 GET /proximity/_search

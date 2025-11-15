@@ -1,6 +1,15 @@
-# Adding synonyms
+## Lesson 128 -- Adding synonyms
 
-## Creating index with custom analyzer
+### Creating index with custom analyzer
+
+The same custom analyzer will be used on indexed documents and queries.
+
+Sample synonym configured in the index mapping: "awful => terrible"
+
+A query for either "awful" and "terrible" will both be a match.
+
+Term-level queries are not analyzed, so don't try to combine terms and synonyms.
+If we were to search for the term "awful" with a term-level query, it wouldn't match anything, because "awful" has been replaced with "terrible" in the inverted index.
 
 ```
 PUT /synonyms

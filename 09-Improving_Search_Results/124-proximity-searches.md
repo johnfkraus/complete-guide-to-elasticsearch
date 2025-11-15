@@ -1,6 +1,8 @@
-# Proximity searches
+## Lesson 124 -- Proximity searches
 
-## Adding test documents
+A proximity search is a phrase search with a slop parameter.
+
+### Adding test documents
 
 ```
 PUT /proximity/_doc/1

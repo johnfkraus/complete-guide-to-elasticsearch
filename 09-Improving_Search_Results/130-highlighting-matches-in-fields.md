@@ -1,6 +1,8 @@
-# Highlighting matches in fields
+## Lesson 130 -- Highlighting matches in fields
 
-## Adding a test document
+https://www.elastic.co/guide/en/elasticsearch/reference/current/search-request-highlighting.html
+
+### Adding a test document
 
 ```
 PUT /highlighting/_doc/1
@@ -9,7 +11,7 @@ PUT /highlighting/_doc/1
 }
 ```
 
-## Highlighting matches within the `description` field
+### Highlighting matches within the `description` field
 
 ```
 GET /highlighting/_search
@@ -26,7 +28,7 @@ GET /highlighting/_search
 }
 ```
 
-## Specifying a custom tag
+### Specifying a custom tag
 
 ```
 GET /highlighting/_search

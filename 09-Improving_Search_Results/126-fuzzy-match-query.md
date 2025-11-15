@@ -1,6 +1,6 @@
-# Fuzzy `match` query
+## Lesson 126 -- Fuzzy `match` query
 
-## Searching with `fuzziness` set to `auto`
+### Searching with `fuzziness` set to `auto`
 
 ```
 GET /products/_search

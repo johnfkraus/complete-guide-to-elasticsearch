@@ -1,6 +1,6 @@
-# Adding synonyms from file
+## Lesson 129 -- Adding synonyms from file
 
-## Adding index with custom analyzer
+### Adding index with custom analyzer
 
 ```
 PUT /synonyms
@@ -36,6 +36,12 @@ PUT /synonyms
 ```
 
 ## Synonyms file (`config/analysis/synonyms.txt`)
+
+The synonyms file needs to be available on all nodes in the cluster!
+
+If you add synonyms to the existing index, the existing documents won't reflect the synonyms.
+
+You'll need to do an update by query.
 
 ```
 # This is a comment
