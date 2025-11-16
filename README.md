@@ -2,6 +2,42 @@
 
 This repository contains all of the queries used within the [Complete Guide to Elasticsearch course](https://l.codingexplained.com/r/elasticsearch-course?src=github).
 
+## Lesson 6 -- Elasticsearch vs. OpenSearch
+
+The core APIs are identical:
+- search queries
+- indexing documents
+- aggregations
+- index management
+- basic security
+
+Main differences are in "ecosystem solutions" or "vertical solutions".
+
+Elastic provides tightly integrated solutions for:
+- Security information a  nd event management (SIEM), security analysis
+- Observability
+- Enterprise search
+- Machine learning and AI
+These solutions tightly integrate parts of the Elastic stack, such as ES and Kibana.
+More commercial in nature, at least for the advance features.
+Features are powerful and easy to use out of the box.
+ES solutions are a bit more user-friendly and integrated, but requires the cost of a license for some things.
+
+OpenSearch takes a more open source approach that relies on plugins and observability.
+Plugins for alerting, observability and security are bundled with OpenSearch.
+
+
+
+elasticsearch-slides-udemy/02-Getting_Started/06-Elasticsearch_vs_OpenSearch.pdf
+
+Elastic Cloud Free trial: https://www.elastic.co/cloud/cloud-trial-overview
+
+Aiven free trial: https://aiven.io/opensearch
+
+Digital Ocean OpenSearch: https://www.digitalocean.com/products/managed-databases-opensearch
+
+AWS OpenSearch: https://aws.amazon.com/opensearch-service/
+
 
 https://dedicated-laurel-1hfqmn7b.apps.bonsaisearch.net/app/dev_tools#/console
 
@@ -375,6 +411,9 @@ Alright, I’ll see you in the next lecture.
 
 ## Lesson 17 - Add more nodes to the cluster
 
+https://www.elastic.co/guide/en/elasticsearch/reference/current/delayed-allocation.html
+
+elasticsearch-slides-udemy/02-Getting_Started/17-Adding_more_nodes_to_the_cluster_(for_development).pdf
 
 ## Lesson 20-Creating and Deleting Indexes
 
