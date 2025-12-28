@@ -1,0 +1,44 @@
+version: '3'
+
+networks:
+  elastic-network:
+    driver: bridge
+
+services:
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:9.2.1-arm64
+    container_name: elasticsearch
+    networks:
+      - elastic-network
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    environment:
+      # Required for development/single-node clusters in 9.x
+      - xpack.security.enabled=false
+      - discovery.type=single-node
+      # Memory settings (adjust as needed, based on your 3.79GB total memory)
+      - "ES_JAVA_OPTS=-Xms1g -Xmx1g"
+    volumes:
+      # Optional: Persist data (create the volume first if using a specific path)
+      - esdata:/usr/share/elasticsearch/data
+    restart: unless-stopped
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:9.2.1-arm64
+    container_name: kibana
+    networks:
+      - elastic-network
+    ports:
+      - "5601:5601"
+    environment:
+      # Connect Kibana to the Elasticsearch container via its service name
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+      - xpack.security.enabled=false
+    restart: unless-stopped
+    depends_on:
+      - elasticsearch
+
+volumes:
+  esdata:
+    driver: local
