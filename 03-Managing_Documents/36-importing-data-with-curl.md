@@ -15,6 +15,13 @@ cd ~/Desktop
 cd C:\Users\[your_username]\Desktop
 ```
 
+### Elastic Cloud endpoint
+
+ESHOST = 
+
+https://my-elasticsearch-project-fc4715.es.us-central1.gcp.elastic.cloud:443
+
+
 ### Importing data into local clusters
 
 ```

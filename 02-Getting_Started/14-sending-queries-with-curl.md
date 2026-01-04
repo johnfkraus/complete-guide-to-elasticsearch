@@ -3,13 +3,14 @@
 ### Handling self signed certificates
 
 Local deployments of Elasticsearch are protected with a self signed certificate by default, which HTTP clients do not trust. 
+
 Sending a request will therefore fail with a certificate error. To fix this, we have a couple of options. 
+
 For cloud deployments, simply skip this step.
 
 ### 1. Skip certificate verification
 
-One option is to entirely skip the verification of the certificate. This is not exactly best practice, 
-but if you are just developing with a local cluster, then it might be just fine. To ignore the 
+One option is to entirely skip the verification of the certificate. This is not exactly best practice, but if you are just developing with a local cluster, then it might be just fine. To ignore the 
 certificate, use either the `--insecure` flag or `-k`.
 
 ```
@@ -56,6 +57,7 @@ curl -u elastic:[YOUR_PASSWORD_HERE] [...]
 Note that this exposes your password within the terminal, so this is not best practice from a security perspective.
 
 ### Elastic Cloud
+
 With Elastic Cloud, we should add an `Authorization` header to our requests and include an API key. API keys can be 
 created within Kibana (Stack Management > Security > API keys). Replace `API_TOKEN` below with the base64 encoded API key.
 

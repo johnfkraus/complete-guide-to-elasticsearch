@@ -1,5 +1,27 @@
-{"index": {"_index": "ds160", "_id": "DT0001"}}
-{"application_id": "DT0001", "form_type": "DT", "submission_date": "2023-12-31T12:00:00Z", "surname": "TUGLY"}
-{"index": {"_index": "ds160", "_id": "DT0001"}}
-{"application_id": "DT0001", "form_type": "DT", "submission_date": "2023-12-31T12:00:00Z", "surname": "TUGLY"}
-ds160_100_bulk.ndjson
+POST /_bulk
+{"index": {"_index": "datetime", "_id": "DT0000"}}
+{"application_id": "DT0000", "form_type": "DT", "submission_date": "2023-12-29", "surname": "ATUGLY"}
+{"index": {"_index": "datetime", "_id": "DT0001"}}
+{"application_id": "DT0001", "form_type": "DT", "submission_date": "2023-12-31", "surname": "BUGLY"}
+{"index": {"_index": "datetime", "_id": "DT0002"}}
+{"application_id": "DT0002", "form_type": "DT", "submission_date": "2023-12-31T12:00:00Z", "surname": "CHARLES"}
+{"index": {"_index": "datetime", "_id": "DT0003"}}
+{"application_id": "DT0003", "form_type": "DT", "submission_date": "2023-12-31T00:00:00.00Z", "surname": "DUMPSTER"}
+{"index": {"_index": "datetime", "_id": "DT0004"}}
+{"application_id": "DT0004", "form_type": "DT", "submission_date": "2023-12-31T23:59:59Z", "surname": "EARL"}
+{"index": {"_index": "datetime", "_id": "DT0005"}}
+{"application_id": "DT0005", "form_type": "DT", "submission_date": "2023-12-31T23:59:59.9999Z", "surname": "FUGLY"}
+{"index": {"_index": "datetime", "_id": "DT0006"}}
+{"application_id": "DT0006", "form_type": "DT", "submission_date": "2024-01-01", "surname": "HUGLY"}
+{"index": {"_index": "datetime", "_id": "DT0007"}}
+{"application_id": "DT0007", "form_type": "DT", "submission_date": "2024-01-01T00:00:00Z", "surname": "IVAN"}
+{"index": {"_index": "datetime", "_id": "DT0008"}}
+{"application_id": "DT0008", "form_type": "DT", "submission_date": "2024-01-01T12:00:00.00Z", "surname": "JUGLY"}
+{"index": {"_index": "datetime", "_id": "DT0009"}}
+{"application_id": "DT0009", "form_type": "DT", "submission_date": "2024-01-01T23:59:59Z", "surname": "KUGLY"}
+{"index": {"_index": "datetime", "_id": "DT0011"}}
+{"application_id": "DT0009", "form_type": "DT", "submission_date": "2024-01-01T23:59:59.99Z", "surname": "LUGLY"}
+{"index": {"_index": "datetime", "_id": "DT0012"}}
+{"application_id": "DT0009", "form_type": "DT", "submission_date": "2024-01-01T23:59:59.9999Z", "surname": "MUGLY"}
+{"index": {"_index": "datetime", "_id": "DT0010"}}
+{"application_id": "DT0010", "form_type": "DT", "submission_date": "2024-01-02", "surname": "NUGLY"}

@@ -265,8 +265,17 @@ GET /my-date-index/_search
   }
 }
 
-GET /my-date-index/_search
+GET /ds160/_search
 {
+  "_source": {
+    "includes": ["submission_date"]
+  },
+  "query": {
+    "match_all": {}
+  }
+}
+
+
   "query": {
     "range": {
       "date": {

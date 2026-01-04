@@ -1,0 +1,41 @@
+https://www.kaggle.com/code/johnfkraus/elasticsearch/edit
+
+docker exec -it <container_name> /usr/share/elasticsearch/bin/elasticsearch-reset-password -u elastic
+
+
+docker exec -it <container_name> /usr/share/elasticsearch/bin/elasticsearch-reset-password -u elastic
+
+docker exec -it es-local-dev /usr/share/elasticsearch/bin/elasticsearch-reset-password -u elastic
+
+Password for the [elastic] user successfully reset.
+New value: 8j7cAO2l1a*JoF5w_Irf
+
+
+{
+  "name" : "395d9176e758",
+  "cluster_name" : "docker-cluster",
+  "cluster_uuid" : "LkDhfajhR22x_sVBsPcjQQ",
+  "version" : {
+    "number" : "9.2.1",
+    "build_flavor" : "default",
+    "build_type" : "docker",
+    "build_hash" : "4ad0ef0e98a2e72fafbd79a19fa5cae2f026117d",
+    "build_date" : "2025-11-06T22:07:39.673130621Z",
+    "build_snapshot" : false,
+    "lucene_version" : "10.3.1",
+    "minimum_wire_compatibility_version" : "8.19.0",
+    "minimum_index_compatibility_version" : "8.0.0"
+  },
+  "tagline" : "You Know, for Search"
+}
+
+docker exec -it <container_name> /usr/share/elasticsearch/bin/elasticsearch-reset-password -u elastic -abs
+
+curl -X GET -u elastic:8j7cAO2l1a*JoF5w_Irf "http://localhost:9200"
+
+
+curl -X GET -H "Authorization: ApiKey $ELASTIC_API_KEY" "http://localhost:9200/my-index/_search?q="rocky%20mountain""
+
+export ELASTIC_API_KEY="RlA2WGpwb0JfNkF6QVhPRDh0b2g6dHRfRWc4ZlRsOGo3Ri1JZ2lUZ0JPQQ=="
+
+curl -X GET -H "Authorization: ApiKey $ELASTIC_API_KEY" "http://localhost:9200/_cat/indices"

@@ -38,7 +38,9 @@ bin/elasticsearch-create-enrollment-token --scope kibana
 ### Disabling Gatekeeper for Kibana directory
 
 macOS contains a security feature named Gatekeeper, which prevents Kibana from starting up.
+
 We can disable it for just the Kibana directory, which allows Kibana to start up correctly.
+
 Simply use the following command to do so.
 
 ```

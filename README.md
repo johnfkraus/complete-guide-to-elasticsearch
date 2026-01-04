@@ -78,6 +78,11 @@ Resetting elastic user's password:
 
 bin/elasticsearch-reset-password -u elastic
 
+UCNpU42q=-uYn8q+c*QL
+
+Password changed to elastic/giraffe.  12/27/25
+
+
 TLS certs are also created.  Data is encrypted during transfer.
 
 Enrollment token is also created for Kibana.  Valid for 30 minutes.
@@ -139,6 +144,7 @@ In Elasticsearch, a shard is a basic unit of data storage and search. Elasticsea
 Elastic is able to distribute your data across nodes by subdividing an index into shards. Each index in Elasticsearch is a grouping of one or more physical shards, where each shard is a self-contained Lucene index containing a subset of the documents in the index. By distributing the documents in an index across multiple shards, and distributing those shards across multiple nodes, Elasticsearch increases indexing and query capacity.
 
 Types of Shards
+
 Primary Shards: Primary shards contain the main data and handle all write operations. The number of primary shards is set when creating an index and cannot be changed later.
 
 Replica Shards: Replica shards are copies of the primary shards, serving as failover mechanisms. They improve system resilience and enable parallel search and retrieval operations.
@@ -184,6 +190,12 @@ GET /_cat/indices?v
 GET /_cat/indices?v&expand_wildcards=all
 
 GET /[API]/[command]
+
+## Lesson 13 -- Inspecting the cluster
+
+You can access ES cluster from the console tool or using any HTTP client, such as Postman or curl. 
+
+
 
 ## Lesson 14 - Sending Queries with Curl
 
@@ -520,8 +532,6 @@ POST /products/_update/100
   }
 }
 
-
-
 ## Lesson 31 - Understanding document versioning
 
 PUT /products/_doc/123?version=521&version_type=external
@@ -563,11 +573,12 @@ Steps in Update by Query:
   - # of conflicts is returned under the "version_conflicts" key.
   - Avoid aborting the query using "conflicts": "proceed".
     - Version conflicts will be counted but query will not be aborted.
-3. Search query is sent to each of the shards to find all matching documents. 
+
+3. Search query is sent to each of the shards to find all matching documents.
+
 4. When a match is found, a bulk request is sent to update those documents.  Uses scroll api internally.  Each pair of search and bulk requests are sent sequentially (one at a time).
+
 5. Should there be an error in the search query or bulk update, ES will try up to 10 times.  If the affected query is still not successful, the whole query is aborted.  The failures will then be specified in the results under the failures key.  The query is aborted and NOT rolled back.  Docs that were updated will remain updated even if the request failed.  The query is not run within a transaction, as with RDBMS.  If the query can partially succeed or fail, it will return information you can use to deal with it.
-
-
 
 ## Lesson 35 - Batch processing
 
@@ -592,12 +603,23 @@ GET /products/_search
   }
 }
 
-
 curl -X GET -H "Content-Type:application/json" "${ESHOST}/products/_search" -d '{ "query": { "match_all": {} } }'
 
 ## Lesson 42 - Intro to mapping
 
 /Users/blauerbock/workspaces/complete-guide-to-elasticsearch/elasticsearch-slides-udemy/04-Mapping_and_Analysis/42-Introduction_to_mapping.pdf
+
+### What is mapping?
+
+Defines the structure of documents (e.g., fields and their data types).
+
+- Also used to configure how values are indexed.
+- Similar to a table's schema in a relational database.
+- Explicit mapping
+  - We define fields and data types ourselves.
+- Dynamic mapping
+  - ES generates field mappings for us.
+- Explicit and dynamic  mapping can be combined.
 
 GET /_mapping
 
@@ -610,19 +632,45 @@ GET /reviews/_mapping/field/content
 ## Lesson 43 - Overview of data types
 
 Slides:
+
 /Users/blauerbock/workspaces/complete-guide-to-elasticsearch/elasticsearch-slides-udemy/04-Mapping_and_Analysis/43-Overview_of_data_types.pdf
 
 Link:
 https://www.elastic.co/docs/reference/elasticsearch/mapping-reference/field-data-types
 
- 
+object, text, short, integer, long, float, double, boolean, date.
 
-
-nested data type-similar to object but maintains object relationship.
+object -- any JSON object
+- uses the "properties" key.  Nested elements have another "properties" key.
 - Allows querying object independently.
+- Object are NOT stored as objects in Lucene.
+  - Objects are transformed to ensure we can index any valid JSON.
+  - Objects are flattened.  Each level is denoted with dots.
+    - You can still query field by using dot notation syntax.
+- Values in arrays are grouped by field name.
+- Nested data type-similar to object but maintains object relationship.
+  - Useful when indexing arrays of objects.
+  - Enables querying objects independently.
+    - Must use the nested query.
 
-keyword-used for exact matching of values.
-- used for filtering, aggregating and sorting.
+```
+PUT /products
+{
+  "mappings": {
+    "properties": {
+      "name": {"type": "text"},
+      "reviews": {"type": "nested"}
+    }
+}
+```
+Nested objects are stored as hidden documents.
+- they won't show up in search results unless we index them directly.
+
+keyword -- Used for exact matching of values.
+- used for filtering, aggregating, and sorting documents.
+  - Example, status field, search for all documents with a status of PUBLISHED.
+For full-text searches, use the text data type instead.
+  - 
 
 For full-text searches, use the text data type instead.
 
@@ -644,6 +692,151 @@ GET products/_mapping
 GET /reviews/_mapping
 
 GET /reviews/_mapping/field/content
+
+## Lesson 51 - How dates work in ES
+
+Specified in one of three ways:
+- Specially formatted strings
+- Milliseconds since the epoch (long)
+- Seconds since the epoch (integer), (unix timestamp)
+
+Three supported formats:
+- date without time
+- date with time
+- milliseconds since epoch (long)
+
+- UTC timezone assumed if not specified.
+- Dates must be formatted according to ISO 8601
+
+Dates are stored as long, representing milliseconds since the epoch.
+- If you are searching a date using a unix timestamp, you'll have to multiply it by 1000.  Otherwise it will be way in the past.
+Converted to UTC.
+The same date conversation also happens for search queries.
+
+- DON'T provide unix timestamps for default date fields.
+
+## Lesson 53 - Overview of mapping parameters
+
+### format
+
+- Used to customize the format for date fields
+- Recommend using the default format whenever possible:
+- "strict_date_optional_time || epoch_milliseconds"
+  - Alternatives:
+    - Java's DateFormatter syntax
+      - e.g., "dd/MM/yyyy"
+    - Using built-in formats
+      - e.g., "epoch_seconds"
+
+Using Elasticsearch, I want to be able to make a query for documents that have a updated_date property greater than a specified date. How should the updated_date field be mapped in Elasticsearch?
+
+To query documents with updated_date greater than a specified date, map the field as a date type and then use a range query.
+
+Recommended approach
+- Mapping
+  - Define updated_date as a date field. Include a format if your dates come in a non-default pattern.
+  - Example:
+    - For objects with standard ISO 8601 timestamps (e.g., 2025-01-04T12:34:56Z), the default date format suffices:
+      - updated_date: { "type": "date" }
+    - For custom formats (e.g., 2025/01/04 12:34:56), specify:
+      - updated_date: { "type": "date", "format": "yyyy/MM/dd HH:mm:ss" }
+- Query
+  - Use a range query on updated_date to filter greater-than dates.
+  - Example:
+    - GET index/_search
+      {
+        "query": {
+          "range": {
+            "updated_date": {
+              "gt": "2025-01-01T00:00:00Z"
+            }
+          }
+        }
+      }
+
+Notes and pitfalls
+- If you already indexed data with updated_date stored as a non-date type (e.g., string), you may need to reindex with the proper mapping, since changes to an existing field’s type can require creating a new index and reindexing, or updating the mapping in a new index and aliasing it.[1][3]
+- If your date values include time zones or offsets, use an appropriate format or rely on the standard ISO 8601 representation to avoid misinterpretation.[3][6]
+- Ensure the date format in the mapping matches the actual stored string values to avoid parsing errors at search time.[3]
+
+Sources consulted
+- Example of updating mapping and using date formats.[3]
+- Guidance on querying dates with range queries and typical formats.[6]
+
+[1](https://stackoverflow.com/questions/16290636/how-to-update-a-field-type-in-elasticsearch)
+[2](https://www.youtube.com/watch?v=rvo9NuPtLC8)
+[3](https://stackoverflow.com/questions/24715243/elasticsearch-change-field-date-format)
+[4](https://discuss.elastic.co/t/elasticsearch-update-the-value-of-a-field-to-current-date/308931)
+[5](https://discuss.elastic.co/t/update-format-for-an-existing-field-of-date-type/197787)
+[6](https://stackoverflow.com/questions/57602030/elasticsearch-query-greater-than-date)
+[7](https://stackoverflow.com/questions/35694847/how-to-update-date-field-in-elasticsearch)
+[8](https://beenje.github.io/blog/posts/searching-by-date-in-elasticsearch/)
+[9](https://www.abdullaev.dev/elasticsearch-how-to-update-mapping-for-existing-fields/)
+[10](https://stackoverflow.com/questions/49225055/elasticsearch-query-for-documents-based-on-active-date-element-in-array)
+
+
+I want to query an Elasticsearch index using a range query on a date field.  However the date is mapped as text.  Will this work?
+
+A range query on a field mapped as `text` will not behave correctly for dates and is generally not supported in recent Elasticsearch versions.
+
+## What happens with text mappings
+
+- Range queries are intended for **numeric** and **date** types (and some keyword use cases), not analyzed `text` fields.[2]
+- When applied to `text`, Elasticsearch would have to operate on analyzed terms, which does not align with date semantics, and such queries are treated as “expensive” and may be rejected when `search.allow_expensive_queries` is `false`.[2]
+- Even if forced, comparisons would be **lexicographical**, not chronological, so `"2025-10-01"` might not compare as expected against `"2025-2-01"` unless formats are zero-padded and stored as non‑analyzed strings.[5]
+
+## Recommended approach
+
+- Add a dedicated field mapped as a **date** (or convert the existing one) and reindex or backfill the data into that field.[1][8]
+- Once mapped as `type: "date"`, use a normal `range` query with `gte`/`lte` (or `gt`/`lt`) and, if needed, a `format` or date math like `now-1d/d`.[9][2]
+
+In practice, for reliable date range queries, the field must be mapped as a **date** (or at least a non-analyzed string/keyword with strictly sortable format), not as `text`.[5][2]
+
+[1](https://stackoverflow.com/questions/75471152/in-elasticsearch-how-to-use-a-range-query-on-a-text-field)
+[2](https://www.elastic.co/docs/reference/query-languages/query-dsl/query-dsl-range-query)
+[3](https://www.reddit.com/r/elasticsearch/comments/xxebf2/elasticsearch_query_for_string_using_date_range/)
+[4](https://discuss.elastic.co/t/how-to-make-a-full-text-query-on-date-attribute-in-elastic-search/133278)
+[5](https://pulse.support/kb/elasticsearch-range-query)
+[6](https://discuss.elastic.co/t/interpret-text-field-as-date-field-during-search/298385)
+[7](https://discuss.elastic.co/t/how-to-specify-a-date-query-and-another-query-term/301986)
+[8](https://discuss.elastic.co/t/convert-keyword-field-to-date-for-range-query/365121)
+[9](http://beenje.github.io/blog/posts/searching-by-date-in-elasticsearch/)
+
+
+I want to query an Elasticsearch index using a range query on a date field.  However the date is mapped as keyword.  Will this work?
+
+Yes, a range query on a `keyword`-mapped date *can* work, but only as a lexicographical (string) comparison, so it depends on the date format.
+
+## When it works
+
+- If your dates are stored in a **lexicographically sortable format**, such as ISO 8601 `yyyy-MM-dd` or `yyyy-MM-dd'T'HH:mm:ss.SSSZ`, then string order matches chronological order, and a `range` query on the `keyword` field will return logically correct ranges.[8][9]
+- Example format that is safe for `keyword` range:
+  - `2025-01-04 16:45:00.000` (zero‑padded year, month, day, hour, minute, second, millisecond).[9]
+
+## Limitations and caveats
+
+- The comparison is **purely lexical**, not date-aware, so non-padded formats (like `2025-1-4`) or mixed formats will produce incorrect ordering and wrong range results.[9]
+- You cannot use date math (`now-1d/d`, `+1h`, etc.) or date-specific features, because the field is not a real `date` type.[3]
+- Range queries on `keyword` are considered **expensive** and may be blocked if `search.allow_expensive_queries` is `false`, especially on large datasets.[3][8]
+
+## Recommended practice
+
+- For robust, performant date filtering and aggregations, map the field as **`date`** (possibly in a multi-field alongside `keyword`) and reindex, then use the `date` field in your range queries.[10][9]
+- Keep the `keyword` variant only if you need exact-term operations (e.g., `term` queries, aggregations on exact string values) in addition to the proper `date` field.[9]
+
+[1](https://www.reddit.com/r/elasticsearch/comments/xxebf2/elasticsearch_query_for_string_using_date_range/)
+[2](https://discuss.elastic.co/t/convert-keyword-field-to-date-for-range-query/365121)
+[3](https://www.elastic.co/docs/reference/query-languages/query-dsl/query-dsl-range-query)
+[4](https://docs.opensearch.org/latest/query-dsl/term/range/)
+[5](https://discuss.elastic.co/t/range-queries-with-custom-format-dates/292852)
+[6](https://discuss.elastic.co/t/how-to-specify-a-date-query-and-another-query-term/301986)
+[7](https://www.previousnext.com.au/blog/filtering-and-sorting-search-results-by-date-range-opensearch)
+[8](https://discuss.elastic.co/t/performance-of-range-queries-on-keyword-fields/357274)
+[9](https://stackoverflow.com/questions/40444850/range-query-for-a-keyword-or-a-date-type-field)
+[10](http://beenje.github.io/blog/posts/searching-by-date-in-elasticsearch/)
+
+
+
 
 ## Lesson 58 - Introduction to Dynamic Mapping
 

@@ -1,0 +1,25 @@
+
+
+Downloading and Extracting Packages:
+
+Preparing transaction: done
+Verifying transaction: failed
+
+conda update anaconda-navigator
+RemoveError: 'charset-normalizer' is a dependency of conda and cannot be removed from
+conda's operating environment.
+RemoveError: 'requests' is a dependency of conda and cannot be removed from
+conda's operating environment.
+
+
+conda update -n base conda
+conda update anaconda-navigator
+
+conda update --all
+
+conda update conda
+
+conda update --force conda
+
+conda update --force-reinstall conda -y
+
